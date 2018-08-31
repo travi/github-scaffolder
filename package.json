@@ -34,6 +34,7 @@
     }
   },
   "devDependencies": {
+    "@travi/any": "^1.7.5",
     "@travi/eslint-config-travi": "^1.6.18",
     "babel-preset-travi": "^1.4.0",
     "babel-register": "^6.26.0",
@@ -52,5 +53,8 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "sinon": "^6.1.5",
     "travis-lint": "^1.0.0"
+  },
+  "dependencies": {
+    "write-yaml": "^1.0.0"
   }
 }

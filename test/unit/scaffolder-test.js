@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import sinon from 'sinon';
 import any from '@travi/any';
 import * as yamlWriter from '../../third-party-wrappers/write-yaml';
-import scaffoldGithub from '../../src/scaffolder';
+import {scaffold} from '../../src/scaffolder';
 
 suite('github', () => {
   let sandbox;
@@ -21,7 +21,7 @@ suite('github', () => {
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    return scaffoldGithub({projectRoot, description, homepage}).then(() => assert.calledWith(
+    return scaffold({projectRoot, description, homepage}).then(() => assert.calledWith(
       yamlWriter.default,
       `${projectRoot}/.github/settings.yml`,
       {
@@ -63,7 +63,7 @@ suite('github', () => {
   test('that the greenkeeper label is defined for javascript projects', () => {
     yamlWriter.default.resolves();
 
-    return scaffoldGithub({projectRoot, projectType: 'JavaScript'}).then(() => assert.calledWith(
+    return scaffold({projectRoot, projectType: 'JavaScript'}).then(() => assert.calledWith(
       yamlWriter.default,
       `${projectRoot}/.github/settings.yml`,
       sinon.match({

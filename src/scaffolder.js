@@ -1,6 +1,6 @@
 import writeYaml from '../third-party-wrappers/write-yaml';
 
-export default function scaffoldGithub({projectRoot, projectType, description, homepage}) {
+export function scaffold({projectRoot, projectType, description, homepage}) {
   return writeYaml(`${projectRoot}/.github/settings.yml`, {
     repository: {
       description,

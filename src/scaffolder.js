@@ -20,6 +20,7 @@ export default function scaffoldGithub({projectRoot, projectType, description, h
       {name: 'invalid', color: 'e6e6e6'},
       {name: 'question', color: 'cc317c'},
       {name: 'wontfix', color: 'ffffff'},
+      {name: 'breaking change', color: 'e0fc28'},
       ('JavaScript' === projectType) ? {name: 'greenkeeper', color: '00c775'} : undefined
     ].filter(Boolean),
     branches: [

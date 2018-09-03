@@ -42,7 +42,8 @@ suite('github', () => {
           {name: 'help wanted', color: '128A0C'},
           {name: 'invalid', color: 'e6e6e6'},
           {name: 'question', color: 'cc317c'},
-          {name: 'wontfix', color: 'ffffff'}
+          {name: 'wontfix', color: 'ffffff'},
+          {name: 'breaking change', color: 'e0fc28'}
         ],
         branches: [
           {
@@ -74,6 +75,7 @@ suite('github', () => {
           {name: 'invalid', color: 'e6e6e6'},
           {name: 'question', color: 'cc317c'},
           {name: 'wontfix', color: 'ffffff'},
+          {name: 'breaking change', color: 'e0fc28'},
           {name: 'greenkeeper', color: '00c775'}
         ]
       })

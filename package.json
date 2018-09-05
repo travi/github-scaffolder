@@ -55,6 +55,8 @@
     "travis-lint": "^1.0.0"
   },
   "dependencies": {
+    "git-config": "0.0.7",
+    "inquirer": "^6.2.0",
     "write-yaml": "^1.0.0"
   }
 }

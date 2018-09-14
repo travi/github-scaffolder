@@ -1,7 +1,7 @@
 import gitConfig from 'git-config';
 import {prompt as promptWithInquirer} from 'inquirer';
 
-export function prompt({account}) {
+export function prompt({account} = {}) {
   return promptWithInquirer([
     {
       name: 'repoOwner',

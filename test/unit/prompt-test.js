@@ -19,6 +19,13 @@ suite('prompt', () => {
 
   teardown(() => sandbox.restore());
 
+  test('that the options are optional', async () => {
+    gitConfig.sync.returns({github: {user: githubUser}});
+    inquirer.prompt.resolves(answers);
+
+    assert.equal(await prompt(), answers);
+  });
+
   test('that the github user is provided as the default owner value if available in the global config', async () => {
     gitConfig.sync.returns({github: {user: githubUser}});
     inquirer.prompt

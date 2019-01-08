@@ -28,6 +28,7 @@ suite('github', () => {
         repository: {
           description,
           homepage,
+          private: true,
           has_wiki: false,
           has_projects: false,
           has_downloads: false,
@@ -80,5 +81,41 @@ suite('github', () => {
         ]
       })
     ));
+  });
+
+  test('that the repository is marked as private when the visibility is `Private`', async () => {
+    yamlWriter.default.resolves();
+
+    await scaffold({projectRoot, projectType: any.word(), visibility: 'Private'});
+
+    assert.calledWith(
+      yamlWriter.default,
+      `${projectRoot}/.github/settings.yml`,
+      sinon.match({repository: {private: true}})
+    );
+  });
+
+  test('that the repository is marked as not private when the visibility is `Public`', async () => {
+    yamlWriter.default.resolves();
+
+    await scaffold({projectRoot, projectType: any.word(), visibility: 'Public'});
+
+    assert.calledWith(
+      yamlWriter.default,
+      `${projectRoot}/.github/settings.yml`,
+      sinon.match({repository: {private: false}})
+    );
+  });
+
+  test('that the repository is marked as private when the visibility is not specified', async () => {
+    yamlWriter.default.resolves();
+
+    await scaffold({projectRoot, projectType: any.word()});
+
+    assert.calledWith(
+      yamlWriter.default,
+      `${projectRoot}/.github/settings.yml`,
+      sinon.match({repository: {private: true}})
+    );
   });
 });

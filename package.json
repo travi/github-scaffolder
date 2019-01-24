@@ -52,9 +52,11 @@
     "travis-lint": "^1.0.0"
   },
   "dependencies": {
+    "@octokit/rest": "^16.13.1",
     "chalk": "^2.4.1",
     "git-config": "0.0.7",
     "inquirer": "^6.2.0",
+    "netrc": "^0.1.4",
     "write-yaml": "^1.0.0"
   }
 }

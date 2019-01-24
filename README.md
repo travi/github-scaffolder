@@ -1,5 +1,7 @@
 # github-scaffolder
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/travi/github-scaffolder.svg)](https://greenkeeper.io/)
+
 VCS scaffolder for projects to be hosted on GitHub
 
 <!-- status badges -->

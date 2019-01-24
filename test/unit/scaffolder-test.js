@@ -7,6 +7,7 @@ import {scaffold} from '../../src/scaffolder';
 suite('github', () => {
   let sandbox;
   const projectRoot = any.string();
+  const projectName = any.string();
 
   setup(() => {
     sandbox = sinon.createSandbox();
@@ -16,16 +17,19 @@ suite('github', () => {
 
   teardown(() => sandbox.restore());
 
-  test('that the settings file is produced', () => {
+  test('that the settings file is produced', async () => {
     const description = any.sentence();
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    return scaffold({projectRoot, description, homepage}).then(() => assert.calledWith(
+    await scaffold({projectRoot, projectName, description, homepage});
+
+    assert.calledWith(
       yamlWriter.default,
       `${projectRoot}/.github/settings.yml`,
       {
         repository: {
+          name: projectName,
           description,
           homepage,
           private: true,
@@ -58,13 +62,15 @@ suite('github', () => {
           }
         ]
       }
-    ));
+    );
   });
 
-  test('that the greenkeeper label is defined for javascript projects', () => {
+  test('that the greenkeeper label is defined for javascript projects', async () => {
     yamlWriter.default.resolves();
 
-    return scaffold({projectRoot, projectType: 'JavaScript'}).then(() => assert.calledWith(
+    await scaffold({projectRoot, projectType: 'JavaScript'});
+
+    assert.calledWith(
       yamlWriter.default,
       `${projectRoot}/.github/settings.yml`,
       sinon.match({
@@ -80,7 +86,7 @@ suite('github', () => {
           {name: 'greenkeeper', color: '00c775'}
         ]
       })
-    ));
+    );
   });
 
   test('that the repository is marked as private when the visibility is `Private`', async () => {

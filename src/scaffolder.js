@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 import writeYaml from '../third-party-wrappers/write-yaml';
 
-export function scaffold({projectRoot, projectType, description, homepage, visibility}) {
+export function scaffold({projectRoot, projectName, projectType, description, homepage, visibility}) {
   console.log(chalk.blue('Generating GitHub'));     // eslint-disable-line no-console
 
   return writeYaml(`${projectRoot}/.github/settings.yml`, {
     repository: {
+      name: projectName,
       description,
       homepage,
       private: 'Public' !== visibility,

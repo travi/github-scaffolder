@@ -22,7 +22,7 @@ suite('github', () => {
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, projectName, description, homepage});
+    await scaffold({projectRoot, vcs: {name: projectName}, description, homepage});
 
     assert.calledWith(
       yamlWriter.default,
@@ -68,7 +68,7 @@ suite('github', () => {
   test('that the greenkeeper label is defined for javascript projects', async () => {
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, projectType: 'JavaScript'});
+    await scaffold({vcs: {}, projectRoot, projectType: 'JavaScript'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -92,7 +92,7 @@ suite('github', () => {
   test('that the repository is marked as private when the visibility is `Private`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, projectType: any.word(), visibility: 'Private'});
+    await scaffold({vcs: {}, projectRoot, projectType: any.word(), visibility: 'Private'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -104,7 +104,7 @@ suite('github', () => {
   test('that the repository is marked as not private when the visibility is `Public`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, projectType: any.word(), visibility: 'Public'});
+    await scaffold({vcs: {}, projectRoot, projectType: any.word(), visibility: 'Public'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -116,7 +116,7 @@ suite('github', () => {
   test('that the repository is marked as private when the visibility is not specified', async () => {
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, projectType: any.word()});
+    await scaffold({vcs: {}, projectRoot, projectType: any.word()});
 
     assert.calledWith(
       yamlWriter.default,

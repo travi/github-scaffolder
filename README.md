@@ -25,6 +25,7 @@ $ npm install @travi/github-scaffolder --prod
 [![Commitizen friendly][commitizen-badge]][commitizen-link]
 [![semantic-release][semantic-release-badge]][semantic-release-link]
 [![PRs Welcome][PRs-badge]][PRs-link]
+[![Greenkeeper badge](https://badges.greenkeeper.io/travi/github-scaffolder.svg)](https://greenkeeper.io/)
 
 ### Dependencies
 
@@ -44,7 +45,7 @@ $ npm test
 [license-link]: LICENSE
 [license-badge]: https://img.shields.io/github/license/travi/github-scaffolder.svg
 [ci-link]: https://travis-ci.com/travi/github-scaffolder
-[ci-badge]: https://img.shields.io/travis/travi/github-scaffolder.svg?branch=master
+[ci-badge]: https://img.shields.io/travis/com/travi/github-scaffolder/master.svg
 [coverage-link]: https://codecov.io/github/travi/github-scaffolder
 [coverage-badge]: https://img.shields.io/codecov/c/github/travi/github-scaffolder.svg
 [commit-convention-link]: https://conventionalcommits.org

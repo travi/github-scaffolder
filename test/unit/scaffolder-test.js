@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import sinon from 'sinon';
 import any from '@travi/any';
-import * as yamlWriter from '../../third-party-wrappers/write-yaml';
+import * as settingsSecaffolder from '../../src/settings-scaffolder';
 import {scaffold} from '../../src/scaffolder';
 
 suite('github', () => {
@@ -12,7 +12,7 @@ suite('github', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
-    sandbox.stub(yamlWriter, 'default');
+    sandbox.stub(settingsSecaffolder, 'default');
   });
 
   teardown(() => sandbox.restore());
@@ -20,108 +20,13 @@ suite('github', () => {
   test('that the settings file is produced', async () => {
     const description = any.sentence();
     const homepage = any.url();
-    yamlWriter.default.resolves();
+    const vcs = {name: projectName};
+    const projectType = any.word();
+    const visibility = any.word();
+    settingsSecaffolder.default.resolves();
 
-    await scaffold({projectRoot, vcs: {name: projectName}, description, homepage});
+    await scaffold({projectRoot, vcs, description, homepage, projectType, visibility});
 
-    assert.calledWith(
-      yamlWriter.default,
-      `${projectRoot}/.github/settings.yml`,
-      {
-        repository: {
-          name: projectName,
-          description,
-          homepage,
-          private: true,
-          has_wiki: false,
-          has_projects: false,
-          has_downloads: false,
-          allow_squash_merge: false,
-          allow_merge_commit: true,
-          allow_rebase_merge: true
-        },
-        labels: [
-          {name: 'bug', color: 'ee0701'},
-          {name: 'duplicate', color: 'cccccc'},
-          {name: 'enhancement', color: '84b6eb'},
-          {name: 'help wanted', color: '128A0C'},
-          {name: 'invalid', color: 'e6e6e6'},
-          {name: 'question', color: 'cc317c'},
-          {name: 'wontfix', color: 'ffffff'},
-          {name: 'breaking change', color: 'e0fc28'}
-        ],
-        branches: [
-          {
-            name: 'master',
-            protection: {
-              required_pull_request_reviews: null,
-              required_status_checks: null,
-              restrictions: null,
-              enforce_admins: true
-            }
-          }
-        ]
-      }
-    );
-  });
-
-  test('that the greenkeeper label is defined for javascript projects', async () => {
-    yamlWriter.default.resolves();
-
-    await scaffold({vcs: {}, projectRoot, projectType: 'JavaScript'});
-
-    assert.calledWith(
-      yamlWriter.default,
-      `${projectRoot}/.github/settings.yml`,
-      sinon.match({
-        labels: [
-          {name: 'bug', color: 'ee0701'},
-          {name: 'duplicate', color: 'cccccc'},
-          {name: 'enhancement', color: '84b6eb'},
-          {name: 'help wanted', color: '128A0C'},
-          {name: 'invalid', color: 'e6e6e6'},
-          {name: 'question', color: 'cc317c'},
-          {name: 'wontfix', color: 'ffffff'},
-          {name: 'breaking change', color: 'e0fc28'},
-          {name: 'greenkeeper', color: '00c775'}
-        ]
-      })
-    );
-  });
-
-  test('that the repository is marked as private when the visibility is `Private`', async () => {
-    yamlWriter.default.resolves();
-
-    await scaffold({vcs: {}, projectRoot, projectType: any.word(), visibility: 'Private'});
-
-    assert.calledWith(
-      yamlWriter.default,
-      `${projectRoot}/.github/settings.yml`,
-      sinon.match({repository: {private: true}})
-    );
-  });
-
-  test('that the repository is marked as not private when the visibility is `Public`', async () => {
-    yamlWriter.default.resolves();
-
-    await scaffold({vcs: {}, projectRoot, projectType: any.word(), visibility: 'Public'});
-
-    assert.calledWith(
-      yamlWriter.default,
-      `${projectRoot}/.github/settings.yml`,
-      sinon.match({repository: {private: false}})
-    );
-  });
-
-  test('that the repository is marked as private when the visibility is not specified', async () => {
-    yamlWriter.default.resolves();
-
-    await scaffold({vcs: {}, projectRoot, projectType: any.word()});
-
-    assert.calledWith(
-      yamlWriter.default,
-      `${projectRoot}/.github/settings.yml`,
-      sinon.match({repository: {private: true}})
-    );
+    assert.calledWith(settingsSecaffolder.default, projectRoot, vcs, description, homepage, visibility, projectType);
   });
 });

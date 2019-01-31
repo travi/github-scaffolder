@@ -20,13 +20,20 @@ suite('github', () => {
   test('that the settings file is produced', async () => {
     const description = any.sentence();
     const homepage = any.url();
-    const vcs = {name: projectName};
     const projectType = any.word();
     const visibility = any.word();
     settingsSecaffolder.default.resolves();
 
-    await scaffold({projectRoot, vcs, description, homepage, projectType, visibility});
+    await scaffold({projectRoot, name: projectName, description, homepage, projectType, visibility});
 
-    assert.calledWith(settingsSecaffolder.default, projectRoot, vcs, description, homepage, visibility, projectType);
+    assert.calledWith(
+      settingsSecaffolder.default,
+      projectRoot,
+      projectName,
+      description,
+      homepage,
+      visibility,
+      projectType
+    );
   });
 });

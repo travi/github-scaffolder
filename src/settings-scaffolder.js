@@ -1,9 +1,9 @@
 import writeYaml from '../third-party-wrappers/write-yaml';
 
-export default function scaffoldSettings(projectRoot, vcs, description, homepage, visibility, projectType) {
+export default function scaffoldSettings(projectRoot, name, description, homepage, visibility, projectType) {
   return writeYaml(`${projectRoot}/.github/settings.yml`, {
     repository: {
-      name: vcs.name,
+      name,
       description,
       homepage,
       private: 'Public' !== visibility,

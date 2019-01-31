@@ -22,7 +22,7 @@ suite('settings', () => {
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    await scaffoldSettings(projectRoot, {name: projectName}, description, homepage);
+    await scaffoldSettings(projectRoot, projectName, description, homepage);
 
     assert.calledWith(
       yamlWriter.default,

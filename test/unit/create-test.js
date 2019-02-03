@@ -6,6 +6,9 @@ import create from '../../src/create';
 
 suite('creation', () => {
   let sandbox;
+  const sshUrl = any.url();
+  const htmlUrl = any.url();
+  const creationResponse = {ssh_url: sshUrl, html_url: htmlUrl};
 
   setup(() => {
     sandbox = sinon.createSandbox();
@@ -16,26 +19,24 @@ suite('creation', () => {
   teardown(() => sandbox.restore());
 
   suite('for user', () => {
-    test('that the repository is created for the provided user account', () => {
+    test('that the repository is created for the provided user account', async () => {
       const name = any.word();
       const createForAuthenticatedUser = sinon.stub();
       const client = {repos: {createForAuthenticatedUser}};
       clientFactory.factory.returns(client);
+      createForAuthenticatedUser.withArgs({name, private: false}).resolves(creationResponse);
 
-      create(name, 'Public');
-
-      assert.calledWith(createForAuthenticatedUser, {name, private: false});
+      assert.deepEqual(await create(name, 'Public'), {sshUrl, htmlUrl});
     });
 
-    test('that the repository is created as private when visibility is `Privage`', () => {
+    test('that the repository is created as private when visibility is `Private`', async () => {
       const name = any.word();
       const createForAuthenticatedUser = sinon.stub();
       const client = {repos: {createForAuthenticatedUser}};
       clientFactory.factory.returns(client);
+      createForAuthenticatedUser.withArgs({name, private: true}).resolves(creationResponse);
 
-      create(name, 'Private');
-
-      assert.calledWith(createForAuthenticatedUser, {name, private: true});
+      assert.deepEqual(await create(name, 'Private'), {sshUrl, htmlUrl});
     });
   });
 });

@@ -24,10 +24,14 @@ suite('github', () => {
     const homepage = any.url();
     const projectType = any.word();
     const visibility = any.word();
+    const creationResult = any.simpleObject();
     settingsSecaffolder.default.resolves();
-    creator.default.resolves();
+    creator.default.withArgs(projectName, visibility).resolves(creationResult);
 
-    await scaffold({projectRoot, name: projectName, description, homepage, projectType, visibility});
+    assert.equal(
+      await scaffold({projectRoot, name: projectName, description, homepage, projectType, visibility}),
+      creationResult
+    );
 
     assert.calledWith(
       settingsSecaffolder.default,
@@ -38,7 +42,5 @@ suite('github', () => {
       visibility,
       projectType
     );
-
-    assert.calledWith(creator.default, projectName, visibility);
   });
 });

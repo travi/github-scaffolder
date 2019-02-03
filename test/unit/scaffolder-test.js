@@ -22,7 +22,7 @@ suite('github', () => {
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    await scaffold({projectRoot, name: projectName, description, homepage});
+    assert.deepEqual(await scaffold({projectRoot, name: projectName, description, homepage}), {});
 
     assert.calledWith(
       yamlWriter.default,

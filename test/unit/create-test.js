@@ -8,7 +8,7 @@ suite('creation', () => {
   let sandbox;
   const sshUrl = any.url();
   const htmlUrl = any.url();
-  const creationResponse = {ssh_url: sshUrl, html_url: htmlUrl};
+  const creationResponse = {data: {ssh_url: sshUrl, html_url: htmlUrl}};
 
   setup(() => {
     sandbox = sinon.createSandbox();

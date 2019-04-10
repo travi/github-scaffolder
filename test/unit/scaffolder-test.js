@@ -23,13 +23,22 @@ suite('github', () => {
     const description = any.sentence();
     const homepage = any.url();
     const projectType = any.word();
+    const projectOwner = any.word();
     const visibility = any.word();
     const creationResult = any.simpleObject();
     settingsSecaffolder.default.resolves();
-    creator.default.withArgs(projectName, visibility).resolves(creationResult);
+    creator.default.withArgs(projectName, projectOwner, visibility).resolves(creationResult);
 
     assert.equal(
-      await scaffold({projectRoot, name: projectName, description, homepage, projectType, visibility}),
+      await scaffold({
+        projectRoot,
+        name: projectName,
+        owner: projectOwner,
+        description,
+        homepage,
+        projectType,
+        visibility
+      }),
       creationResult
     );
 

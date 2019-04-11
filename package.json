@@ -21,6 +21,7 @@
     "coverage:report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "build": "run-s clean build:*",
     "build:js": "rollup -c",
+    "generate:md": "remark . --output",
     "watch": "run-s 'build:js -- --watch'",
     "prepack": "run-s build"
   },
@@ -50,6 +51,7 @@
     "remark": "^10.0.1",
     "remark-cli": "^6.0.1",
     "remark-preset-lint-travi": "^1.1.0",
+    "remark-toc": "^5.1.1",
     "rimraf": "^2.6.2",
     "rollup": "^1.1.2",
     "rollup-plugin-auto-external": "^2.0.0",

@@ -1,8 +1,9 @@
 import {assert} from 'chai';
 import sinon from 'sinon';
 import any from '@travi/any';
-import * as settingsSecaffolder from '../../src/settings-scaffolder';
+import * as settingsScaffolder from '../../src/settings-scaffolder';
 import * as creator from '../../src/create';
+import * as clientFactory from '../../src/github-client-factory';
 import {scaffold} from '../../src/scaffolder';
 
 suite('github', () => {
@@ -13,8 +14,9 @@ suite('github', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
-    sandbox.stub(settingsSecaffolder, 'default');
+    sandbox.stub(settingsScaffolder, 'default');
     sandbox.stub(creator, 'default');
+    sandbox.stub(clientFactory, 'factory');
   });
 
   teardown(() => sandbox.restore());
@@ -26,8 +28,10 @@ suite('github', () => {
     const projectOwner = any.word();
     const visibility = any.word();
     const creationResult = any.simpleObject();
-    settingsSecaffolder.default.resolves();
-    creator.default.withArgs(projectName, projectOwner, visibility).resolves(creationResult);
+    const octokitClient = any.simpleObject();
+    settingsScaffolder.default.resolves();
+    creator.default.withArgs(projectName, projectOwner, visibility, octokitClient).resolves(creationResult);
+    clientFactory.factory.returns(octokitClient);
 
     assert.equal(
       await scaffold({
@@ -43,7 +47,7 @@ suite('github', () => {
     );
 
     assert.calledWith(
-      settingsSecaffolder.default,
+      settingsScaffolder.default,
       projectRoot,
       projectName,
       description,

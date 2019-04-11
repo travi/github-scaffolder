@@ -1,5 +1,4 @@
 import chalk from 'chalk';
-import {factory} from './github-client-factory';
 
 async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit) {
   const {data: organizations} = await octokit.orgs.listForAuthenticatedUser();
@@ -7,10 +6,9 @@ async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit
   return organizations.reduce((acc, organization) => acc || account === organization.login, false);
 }
 
-export default async function (name, owner, visibility) {
+export default async function (name, owner, visibility, octokit) {
   console.error(chalk.grey('Creating repository on GitHub'));           // eslint-disable-line no-console
 
-  const octokit = factory();
   const {data: {login: authenticatedUser}} = await octokit.users.getAuthenticated();
 
   if (owner === authenticatedUser) {

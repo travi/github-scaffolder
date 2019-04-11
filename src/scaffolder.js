@@ -10,8 +10,8 @@ export async function scaffold({name, owner, projectRoot, projectType, descripti
 
   const [, creationResult] = await Promise.all([
     scaffoldSettings(projectRoot, name, description, homepage, visibility, projectType),
-    create(name, owner, visibility, octokit)
+    ...octokit ? [create(name, owner, visibility, octokit)] : []
   ]);
 
-  return creationResult;
+  return {...creationResult};
 }

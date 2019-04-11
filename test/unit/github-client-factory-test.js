@@ -26,4 +26,10 @@ suite('github client factory', () => {
     assert.equal(factory(), instance);
     assert.calledWithNew(octokit.default);
   });
+
+  test('that no client is returned if no token is available in the netrc', () => {
+    netrc.default.returns({});
+
+    assert.isUndefined(factory());
+  });
 });

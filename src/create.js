@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import {info, success} from 'log-symbols';
 
 async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit) {
   const {data: organizations} = await octokit.orgs.listForAuthenticatedUser();
@@ -7,7 +8,7 @@ async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit
 }
 
 export default async function (name, owner, visibility, octokit) {
-  console.error(chalk.grey('Creating repository on GitHub'));           // eslint-disable-line no-console
+  console.error(info, chalk.grey('Creating repository on GitHub'));           // eslint-disable-line no-console
 
   const {data: {login: authenticatedUser}} = await octokit.users.getAuthenticated();
 
@@ -17,7 +18,8 @@ export default async function (name, owner, visibility, octokit) {
       private: 'Private' === visibility
     });
 
-    console.error(chalk.grey(`Repository created for user ${name} at ${htmlUrl}`));   // eslint-disable-line no-console
+    // eslint-disable-next-line no-console
+    console.error(success, chalk.green(`Repository created for user ${name} at ${htmlUrl}`));
 
     return {sshUrl, htmlUrl};
   }
@@ -30,7 +32,7 @@ export default async function (name, owner, visibility, octokit) {
     });
 
     // eslint-disable-next-line no-console
-    console.error(chalk.grey(`Repository created for organization ${name} at ${htmlUrl}`));
+    console.error(success, chalk.green(`Repository created for organization ${name} at ${htmlUrl}`));
 
     return {sshUrl, htmlUrl};
   }

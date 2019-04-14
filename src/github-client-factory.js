@@ -1,15 +1,18 @@
 import chalk from 'chalk';
+import {info, warning} from 'log-symbols';
 import Octokit from '../third-party-wrappers/octokit';
 import netrc from '../third-party-wrappers/netrc';
 
 function getPersonalAccessTokenFromNetRc() {
-  console.error(chalk.grey('Getting GitHub Personal Access Token from ~/.netrc'));    // eslint-disable-line no-console
+  // eslint-disable-next-line no-console
+  console.error(info, chalk.grey('Getting GitHub Personal Access Token from ~/.netrc'));
 
   const githubNetrcElement = netrc()['github.com'];
 
   if (githubNetrcElement) return githubNetrcElement.login;
 
-  console.error(chalk.grey('No GitHub Personal Access Token available in ~/.netrc')); // eslint-disable-line no-console
+  // eslint-disable-next-line no-console
+  console.error(warning, chalk.keyword('orange')('No GitHub Personal Access Token available in ~/.netrc'));
 
   return undefined;
 }

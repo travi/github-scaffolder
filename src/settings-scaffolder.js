@@ -1,8 +1,9 @@
 import chalk from 'chalk';
+import {info} from 'log-symbols';
 import writeYaml from '../third-party-wrappers/write-yaml';
 
 export default function scaffoldSettings(projectRoot, name, description, homepage, visibility, projectType) {
-  console.error(chalk.grey('Writing settings file'));      // eslint-disable-line no-console
+  console.error(info, chalk.grey('Writing settings file'));      // eslint-disable-line no-console
 
   return writeYaml(`${projectRoot}/.github/settings.yml`, {
     repository: {

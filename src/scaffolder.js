@@ -1,10 +1,11 @@
 import chalk from 'chalk';
+import {info} from 'log-symbols';
 import scaffoldSettings from './settings-scaffolder';
 import create from './create';
 import {factory} from './github-client-factory';
 
 export async function scaffold({name, owner, projectRoot, projectType, description, homepage, visibility}) {
-  console.error(chalk.blue('Generating GitHub'));     // eslint-disable-line no-console
+  console.error(info, chalk.blue('Generating GitHub'));     // eslint-disable-line no-console
 
   const octokit = factory();
 

@@ -60,10 +60,9 @@
   },
   "dependencies": {
     "@octokit/rest": "^16.13.1",
-    "chalk": "^2.4.2",
+    "@travi/cli-messages": "1.0.0",
     "git-config": "0.0.7",
     "inquirer": "^6.2.2",
-    "log-symbols": "^3.0.0",
     "netrc": "^0.1.4",
     "write-yaml": "^1.0.0"
   }

@@ -1,5 +1,4 @@
-import chalk from 'chalk';
-import {info, success} from 'log-symbols';
+import {info, success} from '@travi/cli-messages';
 
 async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit) {
   const {data: organizations} = await octokit.orgs.listForAuthenticatedUser();
@@ -8,7 +7,7 @@ async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit
 }
 
 export default async function (name, owner, visibility, octokit) {
-  console.error(info, chalk.grey('Creating repository on GitHub'));           // eslint-disable-line no-console
+  info('Creating repository on GitHub', {level: 'secondary'});
 
   const {data: {login: authenticatedUser}} = await octokit.users.getAuthenticated();
 
@@ -18,8 +17,7 @@ export default async function (name, owner, visibility, octokit) {
       private: 'Private' === visibility
     });
 
-    // eslint-disable-next-line no-console
-    console.error(success, chalk.green(`Repository created for user ${name} at ${htmlUrl}`));
+    success(`Repository created for user ${name} at ${htmlUrl}`);
 
     return {sshUrl, htmlUrl};
   }
@@ -31,8 +29,7 @@ export default async function (name, owner, visibility, octokit) {
       private: 'Private' === visibility
     });
 
-    // eslint-disable-next-line no-console
-    console.error(success, chalk.green(`Repository created for organization ${name} at ${htmlUrl}`));
+    success(`Repository created for organization ${name} at ${htmlUrl}`);
 
     return {sshUrl, htmlUrl};
   }

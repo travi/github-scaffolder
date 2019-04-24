@@ -7,16 +7,18 @@ async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit
   return organizations.reduce((acc, organization) => acc || account === organization.login, false);
 }
 
+async function fetchDetailsForExistingRepository(owner, name, octokit) {
+  warn(`The repository named ${owner}/${name} already exists on GitHub`);
+
+  const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.get({owner, repo: name});
+
+  return {sshUrl, htmlUrl};
+}
+
 async function createForUser(octokit, owner, name, visibility) {
   const {data: existingRepos} = await octokit.repos.listForUser({username: owner});
 
-  if (repoIsInList(name, existingRepos)) {
-    warn(`The repository named ${owner}/${name} already exists on GitHub`);
-
-    const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.get({owner, repo: name});
-
-    return {sshUrl, htmlUrl};
-  }
+  if (repoIsInList(name, existingRepos)) return fetchDetailsForExistingRepository(owner, name, octokit);
 
   const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createForAuthenticatedUser({
     name,
@@ -29,6 +31,10 @@ async function createForUser(octokit, owner, name, visibility) {
 }
 
 async function createForOrganization(octokit, owner, name, visibility) {
+  const {data: existingRepos} = await octokit.repos.listForOrg({org: owner});
+
+  if (repoIsInList(name, existingRepos)) return fetchDetailsForExistingRepository(owner, name, octokit);
+
   const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createInOrg({
     org: owner,
     name,

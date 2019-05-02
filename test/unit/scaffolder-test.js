@@ -12,7 +12,6 @@ suite('github', () => {
   const projectName = any.string();
   const description = any.sentence();
   const homepage = any.url();
-  const projectType = any.word();
   const projectOwner = any.word();
   const visibility = any.word();
 
@@ -34,27 +33,10 @@ suite('github', () => {
     clientFactory.factory.returns(octokitClient);
 
     assert.deepEqual(
-      await scaffold({
-        projectRoot,
-        name: projectName,
-        owner: projectOwner,
-        description,
-        homepage,
-        projectType,
-        visibility
-      }),
+      await scaffold({projectRoot, name: projectName, owner: projectOwner, description, homepage, visibility}),
       creationResult
     );
-
-    assert.calledWith(
-      settingsScaffolder.default,
-      projectRoot,
-      projectName,
-      description,
-      homepage,
-      visibility,
-      projectType
-    );
+    assert.calledWith(settingsScaffolder.default, projectRoot, projectName, description, homepage, visibility);
   });
 
   test('that the repo is not created if an octokit client is not available', async () => {
@@ -67,7 +49,6 @@ suite('github', () => {
         owner: projectOwner,
         description,
         homepage,
-        projectType,
         visibility
       }),
       {}

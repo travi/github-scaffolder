@@ -28,6 +28,19 @@ VCS scaffolder for projects to be hosted on GitHub
 $ npm install @travi/github-scaffolder --prod
 ```
 
+### Enabling actions against the GitHub API
+
+Add a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
+to your [`~/.netrc` file](https://ec.haxx.se/usingcurl-netrc.html)
+
+```
+machine github.com
+  login <personal access token here>
+```
+
+If a token is not provided here, a warning will be printed, but interactions
+with the GitHub API that need more than public access will simply be skipped.
+
 ## Contributing
 
 <!-- contribution badges -->

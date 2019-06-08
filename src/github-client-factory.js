@@ -10,6 +10,10 @@ function getPersonalAccessTokenFromNetRc() {
   if (githubNetrcElement) return githubNetrcElement.login;
 
   warn('No GitHub Personal Access Token available in ~/.netrc');
+  info(
+    'Make your token available with the steps described at ' +
+    'https://github.com/travi/github-scaffolder#enabling-actions-against-the-github-api'
+  );
 
   return undefined;
 }

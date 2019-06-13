@@ -25,7 +25,7 @@ async function createForUser(octokit, owner, name, visibility) {
     private: 'Private' === visibility
   });
 
-  success(`Repository created for user ${name} at ${htmlUrl}`);
+  success(`Repository ${name} created for user ${owner} at ${htmlUrl}`);
 
   return {sshUrl, htmlUrl};
 }
@@ -41,7 +41,7 @@ async function createForOrganization(octokit, owner, name, visibility) {
     private: 'Private' === visibility
   });
 
-  success(`Repository created for organization ${name} at ${htmlUrl}`);
+  success(`Repository ${name} created for organization ${owner} at ${htmlUrl}`);
 
   return {sshUrl, htmlUrl};
 }

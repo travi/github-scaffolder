@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^16.33.1",
-    "@travi/cli-messages": "1.0.1",
+    "@travi/cli-messages": "1.0.2",
     "git-config": "0.0.7",
     "inquirer": "^7.0.0",
     "netrc": "^0.1.4",

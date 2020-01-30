@@ -59,7 +59,7 @@
     "travis-lint": "^1.0.0"
   },
   "dependencies": {
-    "@form8ion/overridable-prompts": "^1.0.0-alpha.1",
+    "@form8ion/overridable-prompts": "^1.0.0",
     "@octokit/rest": "^16.40.0",
     "@travi/cli-messages": "1.0.2",
     "git-config": "0.0.7",

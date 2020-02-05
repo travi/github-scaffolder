@@ -5,7 +5,7 @@ import netrc from '../third-party-wrappers/netrc';
 function getPersonalAccessTokenFromNetRc() {
   info('Getting GitHub Personal Access Token from ~/.netrc', {level: 'secondary'});
 
-  const githubNetrcElement = netrc()['github.com'];
+  const githubNetrcElement = netrc()['api.github.com'];
 
   if (githubNetrcElement) return githubNetrcElement.login;
 

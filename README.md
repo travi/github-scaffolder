@@ -35,7 +35,7 @@ $ npm install @travi/github-scaffolder --prod
 Add a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
 to your [`~/.netrc` file](https://ec.haxx.se/usingcurl-netrc.html)
 
-    machine github.com
+    machine api.github.com
       login <personal access token here>
 
 If a token is not provided here, a warning will be printed, but interactions

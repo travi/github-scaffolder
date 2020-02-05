@@ -20,7 +20,7 @@ suite('github client factory', () => {
   test('that the client is authenticated using the token from netrc', () => {
     const token = any.string();
     const instance = any.simpleObject();
-    netrc.default.returns({'github.com': {login: token}});
+    netrc.default.returns({'api.github.com': {login: token}});
     octokit.default.withArgs({auth: `token ${token}`}).returns(instance);
 
     assert.equal(factory(), instance);

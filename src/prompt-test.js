@@ -3,7 +3,7 @@ import * as prompts from '@form8ion/overridable-prompts';
 import {assert} from 'chai';
 import sinon from 'sinon';
 import any from '@travi/any';
-import {prompt} from '../../src/prompt';
+import {prompt} from './prompt';
 
 suite('prompt', () => {
   let sandbox;

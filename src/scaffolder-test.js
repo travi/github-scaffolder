@@ -1,10 +1,10 @@
 import {assert} from 'chai';
 import sinon from 'sinon';
 import any from '@travi/any';
-import * as settingsScaffolder from '../../src/settings-scaffolder';
-import * as creator from '../../src/create';
-import * as clientFactory from '../../src/github-client-factory';
-import {scaffold} from '../../src/scaffolder';
+import * as settingsScaffolder from './settings-scaffolder';
+import * as creator from './create';
+import * as clientFactory from './github-client-factory';
+import {scaffold} from './scaffolder';
 
 suite('github', () => {
   let sandbox;

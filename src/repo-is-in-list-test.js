@@ -1,6 +1,6 @@
 import any from '@travi/any';
 import {assert} from 'chai';
-import repoIsInList from '../../src/repo-is-in-list';
+import repoIsInList from './repo-is-in-list';
 
 suite('determine if repo list contains repo by provided name', () => {
   const repos = any.listOf(() => ({...any.simpleObject(), name: any.word()}));

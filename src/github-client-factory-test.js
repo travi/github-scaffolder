@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import {assert} from 'chai';
 import any from '@travi/any';
-import * as netrc from '../../third-party-wrappers/netrc';
-import * as octokit from '../../third-party-wrappers/octokit';
-import {factory} from '../../src/github-client-factory';
+import * as netrc from '../third-party-wrappers/netrc';
+import * as octokit from '../third-party-wrappers/octokit';
+import {factory} from './github-client-factory';
 
 suite('github client factory', () => {
   let sandbox;

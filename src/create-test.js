@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 import {assert} from 'chai';
 import any from '@travi/any';
-import create from '../../src/create';
-import * as repoIsInList from '../../src/repo-is-in-list';
+import create from './create';
+import * as repoIsInList from './repo-is-in-list';
 
 suite('creation', () => {
   let sandbox;

@@ -8,6 +8,8 @@ let githubScope;
 const githubToken = 'skdfjahdgakalkfjdlkf';
 const sshUrl = any.url();
 const htmlUrl = any.url();
+const userAccount = any.word();
+const organizationAccount = any.word();
 const debug = require('debug')('test');
 
 function stubGithubAuth(githubUser) {
@@ -37,40 +39,84 @@ Given('netrc contains no GitHub token', async function () {
 });
 
 Given('netrc contains a GitHub token', async function () {
-  this.githubUser = any.word();
+  this.githubUser = userAccount;
   this.netrcContent = `machine api.github.com\n  login ${githubToken}`;
 
   stubGithubAuth(this.githubUser);
 });
 
-Given('no repository exists on GitHub', async function () {
-  githubScope
-    .matchHeader('Authorization', `token ${githubToken}`)
-    .get(`/users/${this.githubUser}/repos`)
-    .reply(OK, []);
+Given('the user is not a member of the organization', async function () {
+  this.githubUser = organizationAccount;
 
   githubScope
     .matchHeader('Authorization', `token ${githubToken}`)
-    .post('/user/repos')
-    .reply(OK, {
-      ssh_url: sshUrl,
-      html_url: htmlUrl
-    });
+    .get('/user/orgs')
+    .reply(OK, []);
 });
 
-Given('a repository already exists on GitHub', async function () {
-  githubScope
-    .matchHeader('Authorization', `token ${githubToken}`)
-    .get(`/users/${this.githubUser}/repos`)
-    .reply(OK, [{name: this.projectName}]);
+Given('the user is a member of an organization', async function () {
+  this.githubUser = organizationAccount;
 
   githubScope
     .matchHeader('Authorization', `token ${githubToken}`)
-    .get(`/repos/${this.githubUser}/${this.projectName}`)
-    .reply(OK, {
-      ssh_url: sshUrl,
-      html_url: htmlUrl
-    });
+    .get('/user/orgs')
+    .reply(OK, [{login: organizationAccount}]);
+});
+
+Given('no repository exists for the {string} on GitHub', async function (accountType) {
+  if ('user' === accountType) {
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/users/${this.githubUser}/repos`)
+      .reply(OK, []);
+
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .post('/user/repos')
+      .reply(OK, {
+        ssh_url: sshUrl,
+        html_url: htmlUrl
+      });
+  }
+
+  if ('organization' === accountType) {
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/orgs/${this.githubUser}/repos`)
+      .reply(OK, []);
+  }
+});
+
+Given('a repository already exists for the {string} on GitHub', async function (accountType) {
+  if ('user' === accountType) {
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/users/${this.githubUser}/repos`)
+      .reply(OK, [{name: this.projectName}]);
+
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/repos/${this.githubUser}/${this.projectName}`)
+      .reply(OK, {
+        ssh_url: sshUrl,
+        html_url: htmlUrl
+      });
+  }
+
+  if ('organization' === accountType) {
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/orgs/${this.githubUser}/repos`)
+      .reply(OK, [{name: this.projectName}]);
+
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .get(`/repos/${this.githubUser}/${this.projectName}`)
+      .reply(OK, {
+        ssh_url: sshUrl,
+        html_url: htmlUrl
+      });
+  }
 });
 
 Then('no repository is created on GitHub', async function () {

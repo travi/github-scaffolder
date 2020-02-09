@@ -31,9 +31,7 @@ After(function () {
 When('the project is scaffolded', async function () {
   const octokitFiles = await promises.readdir(resolve(...pathToNodeModules, 'octokit-pagination-methods/lib/'));
   stubbedFs({
-    ...this.netrcContent && {
-      [`${process.env.HOME}/.netrc`]: this.netrcContent
-    },
+    ...this.netrcContent && {[`${process.env.HOME}/.netrc`]: this.netrcContent},
     [`${process.env.HOME}/.gitconfig`]: `[github]\n\tuser = ${this.githubUser}`,
     node_modules: {
       'octokit-pagination-methods': {

@@ -5,7 +5,7 @@ Feature: Organization
     And the user is a member of an organization
     And no repository exists for the "organization" on GitHub
     When the project is scaffolded
-#    And repository settings are configured
+    And repository settings are configured
     And repository details are returned
 
   Scenario: user is a member of an organization and the project exists
@@ -13,7 +13,7 @@ Feature: Organization
     And the user is a member of an organization
     And a repository already exists for the "organization" on GitHub
     When the project is scaffolded
-#    And repository settings are configured
+    And repository settings are configured
     And repository details are returned
 
   @wip

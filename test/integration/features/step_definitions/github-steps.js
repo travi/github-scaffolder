@@ -1,4 +1,6 @@
+import {promises as fsPromises} from 'fs';
 import {OK} from 'http-status-codes';
+import yaml from 'js-yaml';
 import {After, Before, Given, Then} from 'cucumber';
 import nock from 'nock';
 import any from '@travi/any';
@@ -10,6 +12,7 @@ const sshUrl = any.url();
 const htmlUrl = any.url();
 const userAccount = any.word();
 const organizationAccount = any.word();
+const {readFile} = fsPromises;
 const debug = require('debug')('test');
 
 function stubGithubAuth(githubUser) {
@@ -142,4 +145,26 @@ Then('repository details are returned', async function () {
 
 Then('no repository details are returned', async function () {
   assert.deepEqual(this.result, {});
+});
+
+Then('and an authorization error is thrown', async function () {
+  // Write code here that turns the phrase above into concrete actions
+  return 'pending';
+});
+
+Then('repository settings are configured', async function () {
+  const settings = yaml.safeLoad(await readFile(`${process.cwd()}/.github/settings.yml`));
+
+  assert.deepEqual(
+    settings,
+    {
+      _extends: '.github',
+      repository: {
+        name: this.projectName,
+        description: this.projectDescription,
+        homepage: this.projectHomepage,
+        private: 'Public' !== this.projectVisibility
+      }
+    }
+  );
 });

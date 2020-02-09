@@ -57,6 +57,7 @@
     "gherkin-lint": "^3.3.10",
     "http-status-codes": "^1.4.0",
     "husky": "^4.0.2",
+    "js-yaml": "^3.13.1",
     "mocha": "^7.0.1",
     "mock-fs": "^4.10.4",
     "nock": "^11.7.2",

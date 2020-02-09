@@ -5,6 +5,7 @@ Feature: Authenticated with token in ~/.netrc
     And no repository exists for the "user" on GitHub
     When the project is scaffolded
     Then a repository is created on GitHub
+    And repository settings are configured
     And repository details are returned
 
   Scenario: existing project
@@ -13,3 +14,4 @@ Feature: Authenticated with token in ~/.netrc
     When the project is scaffolded
     Then no repository is created on GitHub
     But repository details are returned
+    And repository settings are configured

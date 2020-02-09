@@ -45,7 +45,7 @@ Given('netrc contains a GitHub token', async function () {
   this.githubUser = userAccount;
   this.netrcContent = `machine api.github.com\n  login ${githubToken}`;
 
-  stubGithubAuth(this.githubUser);
+  stubGithubAuth(userAccount);
 });
 
 Given('the user is not a member of the organization', async function () {
@@ -70,7 +70,7 @@ Given('no repository exists for the {string} on GitHub', async function (account
   if ('user' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/users/${this.githubUser}/repos`)
+      .get(`/users/${userAccount}/repos`)
       .reply(OK, []);
 
     githubScope
@@ -85,12 +85,12 @@ Given('no repository exists for the {string} on GitHub', async function (account
   if ('organization' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/orgs/${this.githubUser}/repos`)
+      .get(`/orgs/${organizationAccount}/repos`)
       .reply(OK, []);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .post(`/orgs/${this.githubUser}/repos`)
+      .post(`/orgs/${organizationAccount}/repos`)
       .reply(OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
@@ -102,12 +102,12 @@ Given('a repository already exists for the {string} on GitHub', async function (
   if ('user' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/users/${this.githubUser}/repos`)
+      .get(`/users/${userAccount}/repos`)
       .reply(OK, [{name: this.projectName}]);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${this.githubUser}/${this.projectName}`)
+      .get(`/repos/${userAccount}/${this.projectName}`)
       .reply(OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
@@ -117,12 +117,12 @@ Given('a repository already exists for the {string} on GitHub', async function (
   if ('organization' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/orgs/${this.githubUser}/repos`)
+      .get(`/orgs/${organizationAccount}/repos`)
       .reply(OK, [{name: this.projectName}]);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${this.githubUser}/${this.projectName}`)
+      .get(`/repos/${organizationAccount}/${this.projectName}`)
       .reply(OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
@@ -148,8 +148,10 @@ Then('no repository details are returned', async function () {
 });
 
 Then('and an authorization error is thrown', async function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  assert.equal(
+    this.scaffoldError.message,
+    `User ${userAccount} does not have access to create a repository in the ${organizationAccount} account`
+  );
 });
 
 Then('repository settings are configured', async function () {

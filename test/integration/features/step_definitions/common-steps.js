@@ -7,6 +7,7 @@ import {scaffold} from '../../../../src';
 
 const {readFile} = fsPromises;
 const pathToNodeModules = [__dirname, '../../../../', 'node_modules/'];
+const debug = require('debug')('test');
 
 function loadOctokitFiles(octokitFiles) {
   return octokitFiles
@@ -69,12 +70,17 @@ When('the project is scaffolded', async function () {
     }
   });
 
-  this.result = await scaffold({
-    name: this.projectName,
-    owner: this.githubUser,
-    description: this.projectDescription,
-    homepage: this.projectHomepage,
-    visibility: this.projectVisibility,
-    projectRoot: process.cwd()
-  });
+  try {
+    this.result = await scaffold({
+      name: this.projectName,
+      owner: this.githubUser,
+      description: this.projectDescription,
+      homepage: this.projectHomepage,
+      visibility: this.projectVisibility,
+      projectRoot: process.cwd()
+    });
+  } catch (err) {
+    debug(err);
+    this.scaffoldError = err;
+  }
 });

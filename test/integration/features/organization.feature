@@ -16,7 +16,6 @@ Feature: Organization
     And repository settings are configured
     And repository details are returned
 
-  @wip
   Scenario: user is not a member of the organization
     Given netrc contains a GitHub token
     And the user is not a member of the organization

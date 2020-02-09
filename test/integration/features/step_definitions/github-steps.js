@@ -2,9 +2,12 @@ import {OK} from 'http-status-codes';
 import {After, Before, Given, Then} from 'cucumber';
 import nock from 'nock';
 import any from '@travi/any';
+import {assert} from 'chai';
 
 let githubScope;
 const githubToken = 'skdfjahdgakalkfjdlkf';
+const sshUrl = any.url();
+const htmlUrl = any.url();
 const debug = require('debug')('test');
 
 function stubGithubAuth(githubUser) {
@@ -50,8 +53,8 @@ Given('no repository exists on GitHub', async function () {
     .matchHeader('Authorization', `token ${githubToken}`)
     .post('/user/repos')
     .reply(OK, {
-      ssh_url: any.url(),
-      html_url: any.url()
+      ssh_url: sshUrl,
+      html_url: htmlUrl
     });
 });
 
@@ -65,8 +68,8 @@ Given('a repository already exists on GitHub', async function () {
     .matchHeader('Authorization', `token ${githubToken}`)
     .get(`/repos/${this.githubUser}/${this.projectName}`)
     .reply(OK, {
-      ssh_url: any.url(),
-      html_url: any.url()
+      ssh_url: sshUrl,
+      html_url: htmlUrl
     });
 });
 
@@ -76,4 +79,13 @@ Then('no repository is created on GitHub', async function () {
 
 Then('a repository is created on GitHub', async function () {
   return undefined;
+});
+
+Then('repository details are returned', async function () {
+  assert.equal(this.result.sshUrl, sshUrl);
+  assert.equal(this.result.htmlUrl, htmlUrl);
+});
+
+Then('no repository details are returned', async function () {
+  assert.deepEqual(this.result, {});
 });

@@ -5,9 +5,11 @@ Feature: Authenticated with token in ~/.netrc
     And no repository exists on GitHub
     When the project is scaffolded
     Then a repository is created on GitHub
+    And repository details are returned
 
   Scenario: existing project
     Given netrc contains a GitHub token
     And a repository already exists on GitHub
     When the project is scaffolded
     Then no repository is created on GitHub
+    But repository details are returned

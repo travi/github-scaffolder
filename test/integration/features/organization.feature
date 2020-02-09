@@ -14,6 +14,7 @@ Feature: Organization
     And a repository already exists for the "organization" on GitHub
     When the project is scaffolded
 #    And repository settings are configured
+    And repository details are returned
 
   @wip
   Scenario: user is not a member of the organization

@@ -84,6 +84,14 @@ Given('no repository exists for the {string} on GitHub', async function (account
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/orgs/${this.githubUser}/repos`)
       .reply(OK, []);
+
+    githubScope
+      .matchHeader('Authorization', `token ${githubToken}`)
+      .post(`/orgs/${this.githubUser}/repos`)
+      .reply(OK, {
+        ssh_url: sshUrl,
+        html_url: htmlUrl
+      });
   }
 });
 

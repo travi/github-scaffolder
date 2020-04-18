@@ -20,21 +20,25 @@ suite('settings', () => {
   test('that the settings file is produced', async () => {
     const description = any.sentence();
     const homepage = any.url();
+    const topics = any.listOf(any.word);
     yamlWriter.default.resolves();
 
-    await scaffoldSettings({projectRoot, projectName, description, homepage});
+    await scaffoldSettings({projectRoot, projectName, description, homepage, topics});
 
     assert.calledWith(
       yamlWriter.default,
       `${projectRoot}/.github/settings.yml`,
-      {_extends: '.github', repository: {name: projectName, description, homepage, private: true}}
+      {
+        _extends: '.github',
+        repository: {name: projectName, description, homepage, private: true, topics: topics.join(', ')}
+      }
     );
   });
 
   test('that the repository is marked as private when the visibility is `Private`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings({projectRoot, projectName: {}, visibility: 'Private'});
+    await scaffoldSettings({projectRoot, visibility: 'Private'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -46,7 +50,7 @@ suite('settings', () => {
   test('that the repository is marked as not private when the visibility is `Public`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings({projectRoot, projectName: {}, visibility: 'Public'});
+    await scaffoldSettings({projectRoot, visibility: 'Public'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -58,7 +62,7 @@ suite('settings', () => {
   test('that the repository is marked as private when the visibility is not specified', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings({projectRoot, projectName: {}});
+    await scaffoldSettings({projectRoot});
 
     assert.calledWith(
       yamlWriter.default,

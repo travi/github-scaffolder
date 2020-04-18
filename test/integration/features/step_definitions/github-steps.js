@@ -165,7 +165,8 @@ Then('repository settings are configured', async function () {
         name: this.projectName,
         description: this.projectDescription,
         homepage: this.projectHomepage,
-        private: 'Public' !== this.projectVisibility
+        private: 'Public' !== this.projectVisibility,
+        topics: this.topics.join(', ')
       }
     }
   );

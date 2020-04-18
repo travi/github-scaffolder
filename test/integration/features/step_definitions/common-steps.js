@@ -14,6 +14,7 @@ Before(function () {
   this.projectDescription = any.sentence();
   this.projectHomepage = any.url();
   this.projectVisibility = any.fromList(['Public', 'Private']);
+  this.topics = any.listOf(any.word);
 });
 
 After(function () {
@@ -61,7 +62,8 @@ When('the project is scaffolded', async function () {
       description: this.projectDescription,
       homepage: this.projectHomepage,
       visibility: this.projectVisibility,
-      projectRoot: process.cwd()
+      projectRoot: process.cwd(),
+      tags: this.topics
     });
   } catch (err) {
     debug(err);

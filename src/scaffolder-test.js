@@ -28,6 +28,7 @@ suite('github', () => {
   test('that the settings file is produced and the repository is created', async () => {
     const creationResult = any.simpleObject();
     const octokitClient = any.simpleObject();
+    const topics = any.listOf(any.word);
     settingsScaffolder.default.resolves();
     creator.default.withArgs(projectName, projectOwner, visibility, octokitClient).resolves(creationResult);
     clientFactory.factory.returns(octokitClient);
@@ -40,10 +41,14 @@ suite('github', () => {
         description,
         homepage,
         visibility,
+        tags: topics
       }),
       creationResult
     );
-    assert.calledWith(settingsScaffolder.default, {projectRoot, projectName, description, homepage, visibility});
+    assert.calledWith(
+      settingsScaffolder.default,
+      {projectRoot, projectName, description, homepage, visibility, topics}
+    );
   });
 
   test('that the repo is not created if an octokit client is not available', async () => {

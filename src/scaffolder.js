@@ -9,7 +9,7 @@ export async function scaffold({name, owner, projectRoot, description, homepage,
   const octokit = factory();
 
   const [, creationResult] = await Promise.all([
-    scaffoldSettings(projectRoot, name, description, homepage, visibility),
+    scaffoldSettings({projectRoot, projectName: name, description, homepage, visibility}),
     ...octokit ? [create(name, owner, visibility, octokit)] : []
   ]);
 

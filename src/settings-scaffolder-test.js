@@ -22,7 +22,7 @@ suite('settings', () => {
     const homepage = any.url();
     yamlWriter.default.resolves();
 
-    await scaffoldSettings(projectRoot, projectName, description, homepage);
+    await scaffoldSettings({projectRoot, projectName, description, homepage});
 
     assert.calledWith(
       yamlWriter.default,
@@ -34,7 +34,7 @@ suite('settings', () => {
   test('that the repository is marked as private when the visibility is `Private`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings(projectRoot, {}, null, null, 'Private');
+    await scaffoldSettings({projectRoot, projectName: {}, visibility: 'Private'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -46,7 +46,7 @@ suite('settings', () => {
   test('that the repository is marked as not private when the visibility is `Public`', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings(projectRoot, {}, null, null, 'Public');
+    await scaffoldSettings({projectRoot, projectName: {}, visibility: 'Public'});
 
     assert.calledWith(
       yamlWriter.default,
@@ -58,7 +58,7 @@ suite('settings', () => {
   test('that the repository is marked as private when the visibility is not specified', async () => {
     yamlWriter.default.resolves();
 
-    await scaffoldSettings(projectRoot, {});
+    await scaffoldSettings({projectRoot, projectName: {}});
 
     assert.calledWith(
       yamlWriter.default,

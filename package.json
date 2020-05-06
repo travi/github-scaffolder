@@ -57,7 +57,7 @@
     "debug": "4.1.1",
     "gherkin-lint": "4.0.1",
     "http-status-codes": "1.4.0",
-    "husky": "4.0.3",
+    "husky": "4.2.5",
     "js-yaml": "3.13.1",
     "mocha": "7.0.1",
     "mock-fs": "4.10.4",

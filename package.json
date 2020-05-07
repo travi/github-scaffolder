@@ -71,7 +71,7 @@
     "rimraf": "3.0.2",
     "rollup": "2.8.0",
     "rollup-plugin-auto-external": "2.0.0",
-    "sinon": "9.0.0",
+    "sinon": "9.0.2",
     "travis-lint": "1.0.0"
   },
   "dependencies": {

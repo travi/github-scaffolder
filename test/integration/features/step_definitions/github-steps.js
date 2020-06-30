@@ -13,7 +13,6 @@ const htmlUrl = any.url();
 const userAccount = any.word();
 const organizationAccount = any.word();
 const {readFile} = fsPromises;
-const debug = require('debug')('test');
 
 function stubGithubAuth(githubUser) {
   githubScope
@@ -25,7 +24,7 @@ function stubGithubAuth(githubUser) {
 Before(function () {
   nock.disableNetConnect();
 
-  githubScope = nock('https://api.github.com/').log(debug);
+  githubScope = nock('https://api.github.com/');
 });
 
 After(() => {

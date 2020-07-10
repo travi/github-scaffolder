@@ -79,7 +79,7 @@
     "@octokit/rest": "^18.0.0",
     "@travi/cli-messages": "1.0.4",
     "git-config": "0.0.7",
-    "netrc": "^0.1.4",
+    "octokit-auth-netrc": "^1.0.0-alpha.2",
     "write-yaml": "^1.0.0"
   }
 }

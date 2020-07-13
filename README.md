@@ -36,14 +36,10 @@ $ npm install @travi/github-scaffolder --prod
 
 ### Enabling actions against the GitHub API
 
-Add a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line)
-to your [`~/.netrc` file](https://ec.haxx.se/usingcurl-netrc.html)
-
-    machine api.github.com
-      login <personal access token here>
-
-If a token is not provided here, a warning will be printed, but interactions
-with the GitHub API that need more than public access will simply be skipped.
+This plugin leverages the [.netrc strategy](https://github.com/travi/octokit-auth-netrc)
+for [octokit](https://github.com/octokit/rest.js/). Be sure to
+[add your personal access token](https://github.com/travi/octokit-auth-netrc#defining-your-token)
+to leverage the GitHub API integration benefits of this plugin.
 
 ### Configuration of GitHub
 

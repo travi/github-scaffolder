@@ -22,6 +22,14 @@ VCS scaffolder for projects to be hosted on GitHub
   * [Example](#example)
     * [Import](#import)
     * [Scaffold](#scaffold)
+  * [API](#api)
+    * [`projectRoot` __string__ (_required_)](#projectroot-string-required)
+    * [`name` __string__ (_required_)](#name-string-required)
+    * [`owner` __string__ (_required_)](#owner-string-required)
+    * [`description` __string__ (_optional_)](#description-string-optional)
+    * [`homepage` __string__ (_optional_)](#homepage-string-optional)
+    * [`visibility` __string__ (_optional_)](#visibility-string-optional)
+    * [`tags` __list of strings__ (_optional_)](#tags-list-of-strings-optional)
 * [Contributing](#contributing)
   * [Dependencies](#dependencies)
   * [Verification](#verification)
@@ -103,6 +111,37 @@ import {scaffold} from '@travi/github-scaffolder';
   });
 })();
 ```
+
+### API
+
+#### `projectRoot` __string__ (_required_)
+
+path to the root of the project
+
+#### `name` __string__ (_required_)
+
+Name for the repository
+
+#### `owner` __string__ (_required_)
+
+Name of the account for the repository
+
+#### `description` __string__ (_optional_)
+
+Short description of the project
+
+#### `homepage` __string__ (_optional_)
+
+URL of the project homepage
+
+#### `visibility` __string__ (_optional_)
+
+Whether the repository should be public or private. If provided, must be
+'Public' or 'Private'.
+
+#### `tags` __list of strings__ (_optional_)
+
+List of tags to be used as repository topics
 
 ## Contributing
 

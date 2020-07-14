@@ -9,5 +9,6 @@ exports.settings = {
 
 exports.plugins = [
   'remark-preset-lint-travi',
-  [require('remark-toc'), {tight: true}]
+  [require('remark-toc'), {tight: true}],
+  ['remark-usage', {heading: 'example'}]
 ];

@@ -16,6 +16,10 @@ stubbedFs();
     description: 'This is my awesome project',
     homepage: 'https://github.com/travi/foo#README',
     visibility: 'Public',
-    tags: ['foo', 'bar']
+    tags: ['foo', 'bar'],
+    nextSteps: [
+      {summary: 'Do not forget to do this!'},
+      {summary: 'Remember to do that'}
+    ]
   });
 })();

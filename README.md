@@ -48,6 +48,11 @@ use by [probot/settings](https://github.com/probot/settings). The settings in
 the file will be applied, along with those in the [account-level file](#account-level-settings),
 once the generated file is pushed to GitHub in the default branch.
 
+### Filing of issues
+
+Issues will be created in the repository for tasks that should be completed
+after acaffolding is complete
+
 ## Usage
 
 <!--consumer-badges start -->
@@ -107,7 +112,11 @@ import {scaffold} from '@travi/github-scaffolder';
     description: 'This is my awesome project',
     homepage: 'https://github.com/travi/foo#README',
     visibility: 'Public',
-    tags: ['foo', 'bar']
+    tags: ['foo', 'bar'],
+    nextSteps: [
+      {summary: 'Do not forget to do this!'},
+      {summary: 'Remember to do that'}
+    ]
   });
 })();
 ```
@@ -142,6 +151,14 @@ Whether the repository should be public or private. If provided, must be
 #### `tags` __list of strings__ (_optional_)
 
 List of tags to be used as repository topics
+
+#### `nextSteps` __list of objects__ (_optional_)
+
+TODO list to be filed as issues
+
+##### `summary` __string__ (_required_)
+
+String to be used as the title of the created issue
 
 ## Contributing
 

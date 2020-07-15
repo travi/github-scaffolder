@@ -1,5 +1,5 @@
 import {promises as fsPromises} from 'fs';
-import {OK} from 'http-status-codes';
+import {CREATED, OK} from 'http-status-codes';
 import yaml from 'js-yaml';
 import {After, Before, Given, Then} from 'cucumber';
 import nock from 'nock';
@@ -28,6 +28,8 @@ Before(function () {
 });
 
 After(() => {
+  assert.isTrue(githubScope.isDone());
+
   nock.enableNetConnect();
   nock.cleanAll();
 });
@@ -129,6 +131,23 @@ Given('a repository already exists for the {string} on GitHub', async function (
   }
 });
 
+Given('next steps are provided', async function () {
+  this.nextSteps = any.listOf(() => ({...any.simpleObject(), summary: any.sentence()}), {min: 1});
+
+  if (this.netrcContent) {
+    this.nextSteps.forEach(task => {
+      githubScope
+        .matchHeader('Authorization', `token ${githubToken}`)
+        .post(`/repos/${organizationAccount || userAccount}/${this.projectName}/issues`, body => {
+          assert.deepEqual(body, {title: task.summary});
+
+          return true;
+        })
+        .reply(CREATED);
+    });
+  }
+});
+
 Then('no repository is created on GitHub', async function () {
   return undefined;
 });
@@ -137,13 +156,22 @@ Then('a repository is created on GitHub', async function () {
   return undefined;
 });
 
+Then('issues are created for next-steps', async function () {
+  // return 'pending';
+});
+
+Then('no issues are created for next-steps', async function () {
+  this.result.nextSteps = [];
+});
+
 Then('repository details are returned', async function () {
   assert.equal(this.result.sshUrl, sshUrl);
   assert.equal(this.result.htmlUrl, htmlUrl);
 });
 
 Then('no repository details are returned', async function () {
-  assert.deepEqual(this.result, {});
+  assert.isUndefined(this.result.sshUrl);
+  assert.isUndefined(this.result.htmlUrl);
 });
 
 Then('and an authorization error is thrown', async function () {

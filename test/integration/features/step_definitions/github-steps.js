@@ -6,7 +6,7 @@ import nock from 'nock';
 import any from '@travi/any';
 import {assert} from 'chai';
 
-let githubScope;
+let githubScope, nextStepsIssueUrls;
 const githubToken = 'skdfjahdgakalkfjdlkf';
 const sshUrl = any.url();
 const htmlUrl = any.url();
@@ -133,17 +133,18 @@ Given('a repository already exists for the {string} on GitHub', async function (
 
 Given('next steps are provided', async function () {
   this.nextSteps = any.listOf(() => ({...any.simpleObject(), summary: any.sentence()}), {min: 1});
+  nextStepsIssueUrls = this.nextSteps.map(() => any.url());
 
   if (this.netrcContent) {
-    this.nextSteps.forEach(task => {
+    this.nextSteps.forEach((task, index) => {
       githubScope
         .matchHeader('Authorization', `token ${githubToken}`)
-        .post(`/repos/${organizationAccount || userAccount}/${this.projectName}/issues`, body => {
+        .post(`/repos/${this.githubUser}/${this.projectName}/issues`, body => {
           assert.deepEqual(body, {title: task.summary});
 
           return true;
         })
-        .reply(CREATED);
+        .reply(CREATED, {url: nextStepsIssueUrls[index]});
     });
   }
 });
@@ -157,11 +158,11 @@ Then('a repository is created on GitHub', async function () {
 });
 
 Then('issues are created for next-steps', async function () {
-  // return 'pending';
+  assert.deepEqual(this.result.nextSteps, nextStepsIssueUrls);
 });
 
 Then('no issues are created for next-steps', async function () {
-  this.result.nextSteps = [];
+  assert.deepEqual(this.result.nextSteps, []);
 });
 
 Then('repository details are returned', async function () {

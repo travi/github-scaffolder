@@ -3,10 +3,10 @@ Feature: Authenticated with token in ~/.netrc
   Scenario: new project
     Given netrc contains a GitHub token
     And no repository exists for the "user" on GitHub
-#    And next steps are provided
+    And next steps are provided
     When the project is scaffolded
     Then a repository is created on GitHub
-#    And issues are created for next-steps
+    And issues are created for next-steps
     And repository settings are configured
     And repository details are returned
 

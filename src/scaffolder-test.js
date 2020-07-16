@@ -36,7 +36,7 @@ suite('github', () => {
     settingsScaffolder.default.resolves();
     creator.default.withArgs(projectName, projectOwner, visibility, octokitClient).resolves(creationResult);
     clientFactory.factory.returns(octokitClient);
-    nextSteps.default.withArgs(octokitClient, providedNextSteps).resolves(nextStepsResult);
+    nextSteps.default.withArgs(octokitClient, providedNextSteps, projectName, projectOwner).resolves(nextStepsResult);
 
     assert.deepEqual(
       await scaffold({

@@ -17,7 +17,7 @@
     "lint:travis": "travis-lint .travis.yml",
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
-    "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
+    "test": "npm-run-all --print-label build --parallel lint:* --parallel test:*",
     "test:unit:base": "mocha 'src/**/*test.js'",
     "test:unit": "nyc run-s test:unit:base",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",

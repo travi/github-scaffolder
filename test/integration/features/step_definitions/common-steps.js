@@ -1,11 +1,13 @@
+// eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
+import {scaffold} from '@travi/github-scaffolder';
 import {resolve} from 'path';
 import {promises as fsPromises} from 'fs';
 import {After, Before, When} from 'cucumber';
 import stubbedFs from 'mock-fs';
 import any from '@travi/any';
-import {scaffold} from '../../../../src';
 
 const {readFile} = fsPromises;
+const packagePreviewDirectory = '../__package_previews__/github-scaffolder';
 const pathToNodeModules = [__dirname, '../../../../', 'node_modules/'];
 const debug = require('debug')('test');
 
@@ -25,29 +27,37 @@ When('the project is scaffolded', async function () {
   stubbedFs({
     ...this.netrcContent && {[`${process.env.HOME}/.netrc`]: this.netrcContent},
     [`${process.env.HOME}/.gitconfig`]: `[github]\n\tuser = ${this.githubUser}`,
-    node_modules: {
+    [packagePreviewDirectory]: {
       '@travi': {
-        'cli-messages': {
+        'github-scaffolder': {
           node_modules: {
-            'color-convert': {
-              'index.js': await readFile(resolve(
-                ...pathToNodeModules,
-                '@travi/cli-messages/node_modules/color-convert/index.js'
-              )),
-              'conversions.js': await readFile(resolve(
-                ...pathToNodeModules,
-                '@travi/cli-messages/node_modules/color-convert/conversions.js'
-              )),
-              'route.js': await readFile(resolve(
-                ...pathToNodeModules,
-                '@travi/cli-messages/node_modules/color-convert/route.js'
-              ))
-            },
-            'color-name': {
-              'index.js': await readFile(resolve(
-                ...pathToNodeModules,
-                '@travi/cli-messages/node_modules/color-name/index.js'
-              ))
+            '.pnpm': {
+              node_modules: {
+                'color-name': {
+                  'index.js': await readFile(resolve(
+                    ...pathToNodeModules,
+                    '@travi/cli-messages/node_modules/color-name/index.js'
+                  ))
+                }
+              },
+              'ansi-styles@4.2.1': {
+                node_modules: {
+                  'color-convert': {
+                    'index.js': await readFile(resolve(
+                      ...pathToNodeModules,
+                      '@travi/cli-messages/node_modules/color-convert/index.js'
+                    )),
+                    'conversions.js': await readFile(resolve(
+                      ...pathToNodeModules,
+                      '@travi/cli-messages/node_modules/color-convert/conversions.js'
+                    )),
+                    'route.js': await readFile(resolve(
+                      ...pathToNodeModules,
+                      '@travi/cli-messages/node_modules/color-convert/route.js'
+                    ))
+                  }
+                }
+              }
             }
           }
         }

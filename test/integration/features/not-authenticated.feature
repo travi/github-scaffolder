@@ -13,5 +13,5 @@ Feature: Not Authenticated
     Given netrc contains no GitHub token
     When the project is scaffolded
     Then no repository is created on GitHub
-    And repository settings are configured
+    But repository settings are configured
     And no repository details are returned

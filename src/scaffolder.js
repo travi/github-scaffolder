@@ -9,11 +9,12 @@ export async function scaffold({name, owner, projectRoot, description, homepage,
 
   const octokit = factory();
 
-  const [, creationResult, nextStepsResult] = await Promise.all([
+  const [, creationResult] = await Promise.all([
     scaffoldSettings({projectRoot, projectName: name, description, homepage, visibility, topics: tags}),
-    ...octokit ? [create(name, owner, visibility, octokit)] : [],
-    nextStepsAdder(octokit, nextSteps, name, owner)
+    ...octokit ? [create(name, owner, visibility, octokit)] : []
   ]);
+
+  const nextStepsResult = await nextStepsAdder(octokit, nextSteps, name, owner);
 
   return {...creationResult, ...nextStepsResult};
 }

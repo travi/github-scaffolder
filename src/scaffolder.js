@@ -2,8 +2,9 @@ import {info} from '@travi/cli-messages';
 import scaffoldSettings from './settings-scaffolder';
 import create from './create';
 import {factory} from './github-client-factory';
+import nextStepsAdder from './next-steps';
 
-export async function scaffold({name, owner, projectRoot, description, homepage, visibility, tags}) {
+export async function scaffold({name, owner, projectRoot, description, homepage, visibility, tags, nextSteps}) {
   info('Generating GitHub');
 
   const octokit = factory();
@@ -13,5 +14,7 @@ export async function scaffold({name, owner, projectRoot, description, homepage,
     ...octokit ? [create(name, owner, visibility, octokit)] : []
   ]);
 
-  return {...creationResult};
+  const nextStepsResult = await nextStepsAdder(octokit, nextSteps, name, owner);
+
+  return {...creationResult, ...nextStepsResult};
 }

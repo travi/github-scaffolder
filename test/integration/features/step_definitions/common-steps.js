@@ -73,7 +73,8 @@ When('the project is scaffolded', async function () {
       homepage: this.projectHomepage,
       visibility: this.projectVisibility,
       projectRoot: process.cwd(),
-      tags: this.topics
+      tags: this.topics,
+      nextSteps: this.nextSteps
     });
   } catch (err) {
     debug(err);

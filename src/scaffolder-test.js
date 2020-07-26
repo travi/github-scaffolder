@@ -4,6 +4,7 @@ import any from '@travi/any';
 import * as settingsScaffolder from './settings-scaffolder';
 import * as creator from './create';
 import * as clientFactory from './github-client-factory';
+import * as nextSteps from './next-steps';
 import {scaffold} from './scaffolder';
 
 suite('github', () => {
@@ -21,17 +22,21 @@ suite('github', () => {
     sandbox.stub(settingsScaffolder, 'default');
     sandbox.stub(creator, 'default');
     sandbox.stub(clientFactory, 'factory');
+    sandbox.stub(nextSteps, 'default');
   });
 
   teardown(() => sandbox.restore());
 
   test('that the settings file is produced and the repository is created', async () => {
     const creationResult = any.simpleObject();
+    const nextStepsResult = {nextSteps: any.listOf(any.url)};
     const octokitClient = any.simpleObject();
     const topics = any.listOf(any.word);
+    const providedNextSteps = any.listOf(any.simpleObject);
     settingsScaffolder.default.resolves();
     creator.default.withArgs(projectName, projectOwner, visibility, octokitClient).resolves(creationResult);
     clientFactory.factory.returns(octokitClient);
+    nextSteps.default.withArgs(octokitClient, providedNextSteps, projectName, projectOwner).resolves(nextStepsResult);
 
     assert.deepEqual(
       await scaffold({
@@ -41,9 +46,10 @@ suite('github', () => {
         description,
         homepage,
         visibility,
-        tags: topics
+        tags: topics,
+        nextSteps: providedNextSteps
       }),
-      creationResult
+      {...creationResult, ...nextStepsResult}
     );
     assert.calledWith(
       settingsScaffolder.default,

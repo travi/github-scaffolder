@@ -23,7 +23,7 @@
     "pretest:integration": "preview",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
     "test:integration:base": "cucumber-js test/integration --profile base",
-    "test:integration:debug": "DEBUG=nock.* run-s test:integration",
+    "test:integration:debug": "DEBUG=test,nock.* run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'",
     "coverage:report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",

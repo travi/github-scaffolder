@@ -33,28 +33,14 @@ When('the project is scaffolded', async function () {
           node_modules: {
             '.pnpm': {
               node_modules: {
-                'color-name': {
-                  'index.js': await readFile(resolve(
-                    ...pathToNodeModules,
-                    '@travi/cli-messages/node_modules/color-name/index.js'
-                  ))
-                }
+                'color-name': {'index.js': await readFile(resolve(...pathToNodeModules, 'color-name/index.js'))}
               },
               'ansi-styles@4.2.1': {
                 node_modules: {
                   'color-convert': {
-                    'index.js': await readFile(resolve(
-                      ...pathToNodeModules,
-                      '@travi/cli-messages/node_modules/color-convert/index.js'
-                    )),
-                    'conversions.js': await readFile(resolve(
-                      ...pathToNodeModules,
-                      '@travi/cli-messages/node_modules/color-convert/conversions.js'
-                    )),
-                    'route.js': await readFile(resolve(
-                      ...pathToNodeModules,
-                      '@travi/cli-messages/node_modules/color-convert/route.js'
-                    ))
+                    'index.js': await readFile(resolve(...pathToNodeModules, 'color-convert/index.js')),
+                    'conversions.js': await readFile(resolve(...pathToNodeModules, 'color-convert/conversions.js')),
+                    'route.js': await readFile(resolve(...pathToNodeModules, 'color-convert/route.js'))
                   }
                 }
               }

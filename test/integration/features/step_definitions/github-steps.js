@@ -1,5 +1,5 @@
 import {promises as fsPromises} from 'fs';
-import {CREATED, OK} from 'http-status-codes';
+import {StatusCodes} from 'http-status-codes';
 import yaml from 'js-yaml';
 import {After, Before, Given, Then} from 'cucumber';
 import nock from 'nock';
@@ -18,7 +18,7 @@ function stubGithubAuth(githubUser) {
   githubScope
     .matchHeader('Authorization', `token ${githubToken}`)
     .get('/user')
-    .reply(OK, {login: githubUser});
+    .reply(StatusCodes.OK, {login: githubUser});
 }
 
 Before(function () {
@@ -55,7 +55,7 @@ Given('the user is not a member of the organization', async function () {
   githubScope
     .matchHeader('Authorization', `token ${githubToken}`)
     .get('/user/orgs')
-    .reply(OK, []);
+    .reply(StatusCodes.OK, []);
 });
 
 Given('the user is a member of an organization', async function () {
@@ -64,7 +64,7 @@ Given('the user is a member of an organization', async function () {
   githubScope
     .matchHeader('Authorization', `token ${githubToken}`)
     .get('/user/orgs')
-    .reply(OK, [{login: organizationAccount}]);
+    .reply(StatusCodes.OK, [{login: organizationAccount}]);
 });
 
 Given('no repository exists for the {string} on GitHub', async function (accountType) {
@@ -72,12 +72,12 @@ Given('no repository exists for the {string} on GitHub', async function (account
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/users/${userAccount}/repos`)
-      .reply(OK, []);
+      .reply(StatusCodes.OK, []);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .post('/user/repos')
-      .reply(OK, {
+      .reply(StatusCodes.OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
       });
@@ -87,12 +87,12 @@ Given('no repository exists for the {string} on GitHub', async function (account
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/orgs/${organizationAccount}/repos`)
-      .reply(OK, []);
+      .reply(StatusCodes.OK, []);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .post(`/orgs/${organizationAccount}/repos`)
-      .reply(OK, {
+      .reply(StatusCodes.OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
       });
@@ -104,12 +104,12 @@ Given('a repository already exists for the {string} on GitHub', async function (
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/users/${userAccount}/repos`)
-      .reply(OK, [{name: this.projectName}]);
+      .reply(StatusCodes.OK, [{name: this.projectName}]);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/repos/${userAccount}/${this.projectName}`)
-      .reply(OK, {
+      .reply(StatusCodes.OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
       });
@@ -119,12 +119,12 @@ Given('a repository already exists for the {string} on GitHub', async function (
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/orgs/${organizationAccount}/repos`)
-      .reply(OK, [{name: this.projectName}]);
+      .reply(StatusCodes.OK, [{name: this.projectName}]);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/repos/${organizationAccount}/${this.projectName}`)
-      .reply(OK, {
+      .reply(StatusCodes.OK, {
         ssh_url: sshUrl,
         html_url: htmlUrl
       });
@@ -144,7 +144,7 @@ Given('next steps are provided', async function () {
 
           return true;
         })
-        .reply(CREATED, {url: nextStepsIssueUrls[index]});
+        .reply(StatusCodes.CREATED, {url: nextStepsIssueUrls[index]});
     });
   }
 });

@@ -1,4 +1,3 @@
 {
-  "extends":["github>form8ion/renovate-config:js-package"],
-  "ignoreDeps": ["pnpm"]
+  "extends":["github>form8ion/renovate-config:js-package"]
 }

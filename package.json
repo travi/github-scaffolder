@@ -14,7 +14,7 @@
     "lint:js": "eslint . --cache",
     "lint:gherkin": "gherkin-lint",
     "lint:md": "remark --frail .",
-    "lint:travis": "travis-lint .travis.yml",
+    "disabled:lint:travis": "travis-lint .travis.yml",
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
     "test": "npm-run-all --print-label build --parallel lint:* --parallel test:*",

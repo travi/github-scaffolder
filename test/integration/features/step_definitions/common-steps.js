@@ -9,6 +9,7 @@ import any from '@travi/any';
 const {readFile} = fsPromises;
 const packagePreviewDirectory = '../__package_previews__/github-scaffolder';
 const pathToNodeModules = [__dirname, '../../../../', 'node_modules/'];
+const stubbedNodeModules = stubbedFs.load(resolve(...pathToNodeModules));
 const debug = require('debug')('test');
 
 Before(function () {
@@ -27,6 +28,7 @@ When('the project is scaffolded', async function () {
   stubbedFs({
     ...this.netrcContent && {[`${process.env.HOME}/.netrc`]: this.netrcContent},
     [`${process.env.HOME}/.gitconfig`]: `[github]\n\tuser = ${this.githubUser}`,
+    node_modules: stubbedNodeModules,
     [packagePreviewDirectory]: {
       '@travi': {
         'github-scaffolder': {
@@ -35,7 +37,7 @@ When('the project is scaffolded', async function () {
               node_modules: {
                 'color-name': {'index.js': await readFile(resolve(...pathToNodeModules, 'color-name/index.js'))}
               },
-              'ansi-styles@4.2.1': {
+              'ansi-styles@4.3.0': {
                 node_modules: {
                   'color-convert': {
                     'index.js': await readFile(resolve(...pathToNodeModules, 'color-convert/index.js')),

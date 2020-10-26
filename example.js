@@ -19,7 +19,12 @@ stubbedFs();
     tags: ['foo', 'bar'],
     nextSteps: [
       {summary: 'Do not forget to do this!'},
-      {summary: 'Remember to do that'}
+      {
+        summary: 'Remember to do that',
+        description: `Take these steps:
+- [ ] step 1
+- [ ] step 2`
+      }
     ]
   });
 })();

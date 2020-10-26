@@ -1,7 +1,12 @@
 export default async function (octokit, nextSteps, repoName, owner) {
   if (octokit && nextSteps) {
     const issues = await Promise.all(
-      nextSteps.map(nextStep => octokit.issues.create({title: nextStep.summary, owner, repo: repoName}))
+      nextSteps.map(({summary, description}) => octokit.issues.create({
+        title: summary,
+        body: description,
+        owner,
+        repo: repoName
+      }))
     );
 
     return {

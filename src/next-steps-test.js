@@ -14,14 +14,21 @@ suite('next-steps', () => {
 
   test('that the urls of the created issues are returned', async () => {
     const issueUrls = any.listOf(any.url);
-    const summaries = issueUrls.map(() => any.simpleObject());
+    const summaries = issueUrls.map(() => any.sentence());
+    const descriptions = issueUrls.map(() => any.sentence());
     const create = sinon.stub();
-    const steps = issueUrls.map((url, index) => ({...any.simpleObject(), summary: summaries[index]}));
+    const steps = issueUrls.map((url, index) => ({
+      ...any.simpleObject(),
+      summary: summaries[index],
+      description: descriptions[index]
+    }));
     const octokit = {...any.simpleObject(), issues: {create}};
     const repoName = any.word();
     const owner = any.word();
     issueUrls.forEach((url, index) => {
-      create.withArgs({title: summaries[index], owner, repo: repoName}).resolves({data: {url}});
+      create
+        .withArgs({title: summaries[index], body: descriptions[index], owner, repo: repoName})
+        .resolves({data: {url}});
     });
 
     assert.deepEqual(await nextSteps(octokit, steps, repoName, owner), {nextSteps: issueUrls});

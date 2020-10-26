@@ -33,6 +33,7 @@ VCS scaffolder for projects to be hosted on GitHub
     * [`tags` __list of strings__ (_optional_)](#tags-list-of-strings-optional)
     * [`nextSteps` __list of objects__ (_optional_)](#nextsteps-list-of-objects-optional)
       * [`summary` __string__ (_required_)](#summary-string-required)
+      * [`description` __string__ (_optional_)](#description-string-optional-1)
 * [Contributing](#contributing)
   * [Dependencies](#dependencies)
   * [Verification](#verification)
@@ -118,7 +119,12 @@ import {scaffold} from '@travi/github-scaffolder';
     tags: ['foo', 'bar'],
     nextSteps: [
       {summary: 'Do not forget to do this!'},
-      {summary: 'Remember to do that'}
+      {
+        summary: 'Remember to do that',
+        description: `Take these steps:
+- [ ] step 1
+- [ ] step 2`
+      }
     ]
   });
 })();
@@ -162,6 +168,10 @@ TODO list to be filed as issues
 ##### `summary` __string__ (_required_)
 
 String to be used as the title of the created issue
+
+##### `description` __string__ (_optional_)
+
+Markdown content for the in-depth description of the issue
 
 ## Contributing
 

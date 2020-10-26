@@ -5,6 +5,7 @@ import {After, Before, Given, Then} from 'cucumber';
 import nock from 'nock';
 import any from '@travi/any';
 import {assert} from 'chai';
+import zip from 'lodash.zip';
 
 let githubScope, nextStepsIssueUrls;
 const githubToken = 'skdfjahdgakalkfjdlkf';
@@ -132,7 +133,10 @@ Given('a repository already exists for the {string} on GitHub', async function (
 });
 
 Given('next steps are provided', async function () {
-  this.nextSteps = any.listOf(() => ({...any.simpleObject(), summary: any.sentence()}), {min: 1});
+  const summaries = any.listOf(any.sentence, {min: 1});
+  const descriptions = summaries.map(() => (any.boolean() ? any.sentence() : undefined));
+  this.nextSteps = zip(summaries, descriptions)
+    .map(([summary, description]) => ({...any.simpleObject(), summary, description}));
   nextStepsIssueUrls = this.nextSteps.map(() => any.url());
 
   if (this.netrcContent) {
@@ -140,7 +144,7 @@ Given('next steps are provided', async function () {
       githubScope
         .matchHeader('Authorization', `token ${githubToken}`)
         .post(`/repos/${this.githubUser}/${this.projectName}/issues`, body => {
-          assert.deepEqual(body, {title: task.summary});
+          assert.deepEqual(body, {title: task.summary, ...task.description && {body: task.description}});
 
           return true;
         })

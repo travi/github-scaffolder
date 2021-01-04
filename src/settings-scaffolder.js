@@ -1,12 +1,16 @@
+import {promises as fs} from 'fs';
+import {dump} from 'js-yaml';
 import {info} from '@travi/cli-messages';
-import writeYaml from '../third-party-wrappers/write-yaml';
+import mkdir from '../third-party-wrappers/make-dir';
 
-export default function scaffoldSettings({projectRoot, projectName, description, homepage, visibility, topics}) {
+export default async function scaffoldSettings({projectRoot, projectName, description, homepage, visibility, topics}) {
   info('Writing settings file', {level: 'secondary'});
 
-  return writeYaml(
-    `${projectRoot}/.github/settings.yml`,
-    {
+  const createdGithubDirectory = await mkdir(`${projectRoot}/.github`);
+
+  return fs.writeFile(
+    `${createdGithubDirectory}/settings.yml`,
+    dump({
       _extends: '.github',
       repository: {
         name: projectName,
@@ -15,6 +19,6 @@ export default function scaffoldSettings({projectRoot, projectName, description,
         private: 'Public' !== visibility,
         ...topics && {topics: topics.join(', ')}
       }
-    }
+    })
   );
 }

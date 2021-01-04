@@ -187,7 +187,7 @@ Then('and an authorization error is thrown', async function () {
 });
 
 Then('repository settings are configured', async function () {
-  const settings = yaml.safeLoad(await readFile(`${process.cwd()}/.github/settings.yml`));
+  const settings = yaml.load(await readFile(`${process.cwd()}/.github/settings.yml`));
 
   assert.deepEqual(
     settings,

@@ -1,6 +1,6 @@
+import {Octokit} from '@octokit/rest';
 import {createNetrcAuth} from 'octokit-auth-netrc';
 import {info, warn} from '@travi/cli-messages';
-import Octokit from '../third-party-wrappers/octokit';
 
 export function factory() {
   try {

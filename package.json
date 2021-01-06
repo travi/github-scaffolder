@@ -73,7 +73,7 @@
     "rimraf": "3.0.2",
     "rollup": "2.36.1",
     "rollup-plugin-auto-external": "2.0.0",
-    "sinon": "9.2.2"
+    "sinon": "9.2.3"
   },
   "dependencies": {
     "@form8ion/overridable-prompts": "^1.1.0",

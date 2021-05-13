@@ -33,7 +33,8 @@
     "build:js": "rollup -c",
     "generate:md": "remark . --output",
     "watch": "run-s 'build:js -- --watch'",
-    "prepack": "run-s build"
+    "prepack": "run-s build",
+    "prepare": "husky install"
   },
   "publishConfig": {
     "access": "public"

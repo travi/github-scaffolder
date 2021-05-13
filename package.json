@@ -5,6 +5,9 @@
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.17"
+  },
   "repository": "travi/github-scaffolder",
   "bugs": "https://github.com/travi/github-scaffolder/issues",
   "homepage": "https://npm.im/@travi/github-scaffolder",

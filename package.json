@@ -61,7 +61,7 @@
     "cucumber": "6.0.5",
     "cz-conventional-changelog": "3.3.0",
     "debug": "4.3.1",
-    "gherkin-lint": "4.2.1",
+    "gherkin-lint": "4.2.2",
     "http-status-codes": "2.1.4",
     "husky": "6.0.0",
     "lodash.zip": "4.2.0",

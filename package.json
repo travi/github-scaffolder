@@ -52,7 +52,7 @@
     "@travi/eslint-config": "1.0.76",
     "@travi/eslint-config-cucumber": "1.0.5",
     "@travi/eslint-config-mocha": "1.0.12",
-    "ban-sensitive-files": "1.9.15",
+    "ban-sensitive-files": "1.9.16",
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
     "check-engine": "1.10.0",

@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         node:
-          - '12.17'
+          - '12.20'
           - 12
           - 14
     steps:

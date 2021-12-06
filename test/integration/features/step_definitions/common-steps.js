@@ -2,7 +2,7 @@
 import {scaffold} from '@travi/github-scaffolder';
 import {resolve} from 'path';
 import {promises as fsPromises} from 'fs';
-import {After, Before, When} from 'cucumber';
+import {After, Before, When} from '@cucumber/cucumber';
 import stubbedFs from 'mock-fs';
 import any from '@travi/any';
 

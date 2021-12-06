@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/register": "7.16.0",
+    "@cucumber/cucumber": "8.0.0-rc.1",
     "@travi/any": "2.0.19",
     "@travi/babel-preset": "3.0.69",
     "@travi/eslint-config": "1.0.90",
@@ -58,7 +59,6 @@
     "check-engine": "1.10.1",
     "codecov": "3.8.3",
     "commitlint-config-travi": "1.4.3",
-    "cucumber": "6.0.5",
     "cz-conventional-changelog": "3.3.0",
     "debug": "4.3.3",
     "gherkin-lint": "4.2.2",

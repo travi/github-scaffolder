@@ -1,5 +1,6 @@
 // #### Import
-// remark-usage-ignore-next
+// remark-usage-ignore-next 2
+import 'color-convert';
 import stubbedFs from 'mock-fs';
 import {scaffold} from './lib/index.cjs';
 

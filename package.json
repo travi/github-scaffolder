@@ -19,7 +19,7 @@
     "lint:md": "remark --frail .",
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
-    "lint:engines": "check-engine",
+    "lint:engines": "ls-engines",
     "test": "npm-run-all --print-label build --parallel lint:* --parallel test:*",
     "test:unit:base": "mocha 'src/**/*test.js'",
     "test:unit": "nyc run-s test:unit:base",

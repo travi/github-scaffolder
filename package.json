@@ -56,7 +56,7 @@
     "ban-sensitive-files": "1.9.16",
     "chai": "4.3.4",
     "chai-as-promised": "7.1.1",
-    "ls-engines": "0.5.1",
+    "ls-engines": "0.6.1",
     "codecov": "3.8.3",
     "commitlint-config-travi": "1.4.3",
     "cz-conventional-changelog": "3.3.0",

@@ -58,7 +58,7 @@
     "chai-as-promised": "7.1.1",
     "ls-engines": "0.6.4",
     "codecov": "3.8.3",
-    "commitlint-config-travi": "1.4.6",
+    "commitlint-config-travi": "1.4.7",
     "cz-conventional-changelog": "3.3.0",
     "debug": "4.3.3",
     "gherkin-lint": "4.2.2",

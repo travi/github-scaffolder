@@ -49,7 +49,7 @@
     "@babel/register": "7.16.9",
     "@cucumber/cucumber": "8.0.0-rc.2",
     "@travi/any": "2.0.19",
-    "@travi/babel-preset": "3.0.72",
+    "@travi/babel-preset": "3.0.73",
     "@travi/eslint-config": "1.0.92",
     "@travi/eslint-config-cucumber": "1.0.5",
     "@travi/eslint-config-mocha": "1.0.16",

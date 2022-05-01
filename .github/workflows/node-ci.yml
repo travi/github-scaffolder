@@ -22,12 +22,11 @@ jobs:
       - name: Setup node ${{ matrix.node_version }}
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
           cache: npm
-      - uses: bahmutov/npm-install@v1
+      - run: npm clean-install
       - run: npm test
-      - name: Upload coverage data to Codecov
-        run: npm run coverage:report
+      - uses: codecov/codecov-action@v3
   verify-matrix:
     runs-on: ubuntu-latest
     strategy:
@@ -43,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
-      - uses: bahmutov/npm-install@v1
+      - run: npm clean-install
       - run: npm test
   release:
     needs:

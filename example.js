@@ -1,11 +1,11 @@
 // #### Import
 // remark-usage-ignore-next 2
-import 'color-convert';
+import {resolve} from 'path';
 import stubbedFs from 'mock-fs';
 import {scaffold} from './lib/index.cjs';
 
 // remark-usage-ignore-next
-stubbedFs();
+stubbedFs({node_modules: stubbedFs.load(resolve(...[__dirname, 'node_modules']))});
 
 // #### Scaffold
 

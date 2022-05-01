@@ -6,7 +6,7 @@
   "module": "lib/index.es.js",
   "license": "MIT",
   "engines": {
-    "node": ">=12.20"
+    "node": "^14.15 || >=16"
   },
   "repository": "travi/github-scaffolder",
   "bugs": "https://github.com/travi/github-scaffolder/issues",

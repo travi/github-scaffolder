@@ -3,7 +3,6 @@ name: Node.js CI
   push:
     branches:
       - master
-      - alpha
       - beta
       - renovate/**
   pull_request:
@@ -44,23 +43,21 @@ jobs:
           cache: npm
       - run: npm clean-install
       - run: npm test
-  release:
+  trigger-release:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     needs:
       - verify
       - verify-matrix
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Read .nvmrc
-        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
-        id: nvm
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - uses: octokit/request-action@v2.x
         with:
-          node-version: ${{ steps.nvm.outputs.NVMRC }}
-      - uses: bahmutov/npm-install@v1
-      - name: semantic-release
-        uses: cycjimmy/semantic-release-action@v2
+          route: >-
+            POST
+            /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches
+          owner: travi
+          repo: github-scaffolder
+          ref: ${{ github.ref }}
+          workflow_id: release.yml
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

@@ -87,6 +87,6 @@
     "git-config": "0.0.7",
     "js-yaml": "^4.0.0",
     "make-dir": "^3.1.0",
-    "octokit-auth-netrc": "^1.0.0"
+    "octokit-auth-netrc": "^2.0.0"
   }
 }

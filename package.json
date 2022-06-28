@@ -47,7 +47,7 @@
   "devDependencies": {
     "@babel/register": "7.18.6",
     "@cucumber/cucumber": "8.3.1",
-    "@travi/any": "2.1.2",
+    "@travi/any": "2.1.5",
     "@travi/babel-preset": "3.0.89",
     "@travi/eslint-config": "3.0.3",
     "@travi/eslint-config-cucumber": "1.0.6",

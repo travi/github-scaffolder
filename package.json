@@ -82,7 +82,7 @@
   },
   "dependencies": {
     "@form8ion/overridable-prompts": "^1.1.0",
-    "@octokit/rest": "^18.0.0",
+    "@octokit/rest": "^19.0.0",
     "@travi/cli-messages": "1.0.5",
     "git-config": "0.0.7",
     "js-yaml": "^4.0.0",

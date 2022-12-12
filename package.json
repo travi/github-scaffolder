@@ -1,17 +1,17 @@
 {
   "name": "@travi/github-scaffolder",
   "description": "VCS scaffolder for projects to be hosted on GitHub",
-  "version": "0.0.0-semantically-released",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.es.js",
   "license": "MIT",
+  "version": "0.0.0-semantically-released",
   "engines": {
     "node": "^14.15 || >=16"
   },
+  "author": "Matt Travi <npm@travi.org> (https://matt.travi.org/)",
   "repository": "travi/github-scaffolder",
   "bugs": "https://github.com/travi/github-scaffolder/issues",
   "homepage": "https://npm.im/@travi/github-scaffolder",
-  "author": "Matt Travi <npm@travi.org> (https://matt.travi.org/)",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
   "scripts": {
     "clean": "rimraf lib/",
     "lint:js": "eslint . --cache",
@@ -43,6 +43,15 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@form8ion/overridable-prompts": "^1.1.0",
+    "@octokit/rest": "^19.0.0",
+    "@travi/cli-messages": "1.0.5",
+    "git-config": "0.0.7",
+    "js-yaml": "^4.0.0",
+    "make-dir": "^3.1.0",
+    "octokit-auth-netrc": "^2.0.0"
   },
   "devDependencies": {
     "@babel/register": "7.18.9",
@@ -79,14 +88,5 @@
     "rollup": "2.79.1",
     "rollup-plugin-auto-external": "2.0.0",
     "sinon": "15.0.0"
-  },
-  "dependencies": {
-    "@form8ion/overridable-prompts": "^1.1.0",
-    "@octokit/rest": "^19.0.0",
-    "@travi/cli-messages": "1.0.5",
-    "git-config": "0.0.7",
-    "js-yaml": "^4.0.0",
-    "make-dir": "^3.1.0",
-    "octokit-auth-netrc": "^2.0.0"
   }
 }

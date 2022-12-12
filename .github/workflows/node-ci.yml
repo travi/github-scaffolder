@@ -45,21 +45,10 @@ jobs:
           cache: npm
       - run: npm clean-install
       - run: npm test
-  trigger-release:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+  release:
     needs:
       - verify
       - verify-matrix
-    steps:
-      - uses: octokit/request-action@v2.x
-        with:
-          route: >-
-            POST
-            /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches
-          owner: travi
-          repo: github-scaffolder
-          ref: ${{ github.ref }}
-          workflow_id: release.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+    uses: form8ion/.github/.github/workflows/release-package.yml@master
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

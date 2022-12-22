@@ -1,5 +1,4 @@
 import {info, success, warn} from '@travi/cli-messages';
-import repoIsInList from './repo-is-in-list';
 
 async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit) {
   const {data: organizations} = await octokit.orgs.listForAuthenticatedUser();
@@ -8,42 +7,56 @@ async function authenticatedUserIsMemberOfRequestedOrganization(account, octokit
 }
 
 async function fetchDetailsForExistingRepository(owner, name, octokit) {
-  warn(`The repository named ${owner}/${name} already exists on GitHub`);
-
   const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.get({owner, repo: name});
 
   return {sshUrl, htmlUrl};
 }
 
 async function createForUser(octokit, owner, name, visibility) {
-  const {data: existingRepos} = await octokit.repos.listForUser({username: owner});
+  try {
+    const repositoryDetails = await fetchDetailsForExistingRepository(owner, name, octokit);
 
-  if (repoIsInList(name, existingRepos)) return fetchDetailsForExistingRepository(owner, name, octokit);
+    warn(`The repository named ${owner}/${name} already exists on GitHub`);
 
-  const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createForAuthenticatedUser({
-    name,
-    private: 'Private' === visibility
-  });
+    return repositoryDetails;
+  } catch (e) {
+    if (404 === e.status) {
+      const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createForAuthenticatedUser({
+        name,
+        private: 'Private' === visibility
+      });
 
-  success(`Repository ${name} created for user ${owner} at ${htmlUrl}`);
+      success(`Repository ${name} created for user ${owner} at ${htmlUrl}`);
 
-  return {sshUrl, htmlUrl};
+      return {sshUrl, htmlUrl};
+    }
+
+    throw e;
+  }
 }
 
 async function createForOrganization(octokit, owner, name, visibility) {
-  const {data: existingRepos} = await octokit.repos.listForOrg({org: owner});
+  try {
+    const repositoryDetails = await fetchDetailsForExistingRepository(owner, name, octokit);
 
-  if (repoIsInList(name, existingRepos)) return fetchDetailsForExistingRepository(owner, name, octokit);
+    warn(`The repository named ${owner}/${name} already exists on GitHub`);
 
-  const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createInOrg({
-    org: owner,
-    name,
-    private: 'Private' === visibility
-  });
+    return repositoryDetails;
+  } catch (e) {
+    if (404 === e.status) {
+      const {data: {ssh_url: sshUrl, html_url: htmlUrl}} = await octokit.repos.createInOrg({
+        org: owner,
+        name,
+        private: 'Private' === visibility
+      });
 
-  success(`Repository ${name} created for organization ${owner} at ${htmlUrl}`);
+      success(`Repository ${name} created for organization ${owner} at ${htmlUrl}`);
 
-  return {sshUrl, htmlUrl};
+      return {sshUrl, htmlUrl};
+    }
+
+    throw e;
+  }
 }
 
 export default async function (name, owner, visibility, octokit) {

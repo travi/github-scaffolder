@@ -72,8 +72,8 @@ Given('no repository exists for the {string} on GitHub', async function (account
   if ('user' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/users/${userAccount}/repos`)
-      .reply(StatusCodes.OK, []);
+      .get(`/repos/${userAccount}/${this.projectName}`)
+      .reply(StatusCodes.NOT_FOUND);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
@@ -87,8 +87,8 @@ Given('no repository exists for the {string} on GitHub', async function (account
   if ('organization' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/orgs/${organizationAccount}/repos`)
-      .reply(StatusCodes.OK, []);
+      .get(`/repos/${organizationAccount}/${this.projectName}`)
+      .reply(StatusCodes.NOT_FOUND);
 
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
@@ -104,11 +104,6 @@ Given('a repository already exists for the {string} on GitHub', async function (
   if ('user' === accountType) {
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/users/${userAccount}/repos`)
-      .reply(StatusCodes.OK, [{name: this.projectName}]);
-
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/repos/${userAccount}/${this.projectName}`)
       .reply(StatusCodes.OK, {
         ssh_url: sshUrl,
@@ -117,11 +112,6 @@ Given('a repository already exists for the {string} on GitHub', async function (
   }
 
   if ('organization' === accountType) {
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/orgs/${organizationAccount}/repos`)
-      .reply(StatusCodes.OK, [{name: this.projectName}]);
-
     githubScope
       .matchHeader('Authorization', `token ${githubToken}`)
       .get(`/repos/${organizationAccount}/${this.projectName}`)

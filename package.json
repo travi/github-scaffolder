@@ -73,7 +73,7 @@
     "http-status-codes": "2.2.0",
     "husky": "8.0.3",
     "lodash.zip": "4.2.0",
-    "ls-engines": "0.8.1",
+    "ls-engines": "0.9.0",
     "mocha": "10.2.0",
     "mock-fs": "5.2.0",
     "nock": "13.3.0",

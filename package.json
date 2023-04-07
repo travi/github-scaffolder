@@ -20,8 +20,11 @@
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
     "lint:engines": "ls-engines",
-    "test": "npm-run-all --print-label build --parallel lint:* --parallel test:*",
-    "test:unit:base": "mocha 'src/**/*test.js'",
+    "pretest": "run-s build",
+    "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
+    "test:unit:base": "npm-run-all --print-label --parallel test:unit:mocha test:unit:vitest",
+    "test:unit:mocha": "mocha 'src/**/*-test.js'",
+    "test:unit:vitest": "DEBUG=any vitest run",
     "test:unit": "cross-env NODE_ENV=test c8 run-s test:unit:base",
     "pretest:integration": "preview",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
@@ -73,6 +76,7 @@
     "gherkin-lint": "4.2.2",
     "http-status-codes": "2.2.0",
     "husky": "8.0.3",
+    "jest-when": "3.5.2",
     "lodash.zip": "4.2.0",
     "ls-engines": "0.9.0",
     "mocha": "10.2.0",
@@ -88,6 +92,7 @@
     "rimraf": "4.4.1",
     "rollup": "2.79.1",
     "rollup-plugin-auto-external": "2.0.0",
-    "sinon": "15.0.3"
+    "sinon": "15.0.3",
+    "vitest": "0.29.8"
   }
 }

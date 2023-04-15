@@ -1,16 +1,20 @@
+import {fileURLToPath} from 'node:url';
+import {resolve, dirname} from 'node:path';
+import {promises as fsPromises} from 'node:fs';
 // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
 import {scaffold} from '@travi/github-scaffolder';
-import {resolve} from 'path';
-import {promises as fsPromises} from 'fs';
+
 import {After, Before, When} from '@cucumber/cucumber';
 import stubbedFs from 'mock-fs';
 import any from '@travi/any';
+import debugTest from 'debug';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));        // eslint-disable-line no-underscore-dangle
 const {readFile} = fsPromises;
 const packagePreviewDirectory = '../__package_previews__/github-scaffolder';
 const pathToNodeModules = [__dirname, '../../../../', 'node_modules/'];
 const stubbedNodeModules = stubbedFs.load(resolve(...pathToNodeModules));
-const debug = require('debug')('test');
+const debug = debugTest('test');
 
 Before(function () {
   this.projectName = any.word();

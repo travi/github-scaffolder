@@ -1,4 +1,4 @@
-import {promises as fs} from 'fs';
+import {promises as fs} from 'node:fs';
 import {dump} from 'js-yaml';
 import {info} from '@travi/cli-messages';
 import mkdir from '../third-party-wrappers/make-dir';

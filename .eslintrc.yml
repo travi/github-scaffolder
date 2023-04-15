@@ -2,6 +2,11 @@ extends:
   - '@travi'
   - '@travi/cucumber'
 
+rules:
+  import/extensions:
+    - warn
+    - ignorePackages
+
 overrides:
   - files: example.js
     rules:

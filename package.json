@@ -3,6 +3,7 @@
   "description": "VCS scaffolder for projects to be hosted on GitHub",
   "license": "MIT",
   "version": "0.0.0-semantically-released",
+  "type": "module",
   "engines": {
     "node": "^16.14 || >=18"
   },
@@ -10,8 +11,8 @@
   "repository": "travi/github-scaffolder",
   "bugs": "https://github.com/travi/github-scaffolder/issues",
   "homepage": "https://npm.im/@travi/github-scaffolder",
-  "main": "lib/index.cjs.js",
-  "module": "lib/index.es.js",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib/",
     "lint:js": "eslint . --cache",
@@ -20,13 +21,14 @@
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
     "lint:engines": "ls-engines",
+    "lint:publish": "publint",
     "pretest": "run-s build",
     "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
     "test:unit:base": "DEBUG=any vitest run",
     "test:unit": "cross-env NODE_ENV=test c8 run-s test:unit:base",
-    "pretest:integration": "preview",
+    "pretest:integration": "run-s build",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
-    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps $NODE_OPTIONS\" cucumber-js test/integration --profile base",
+    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps $NODE_OPTIONS\" cucumber-js test/integration",
     "test:integration:debug": "DEBUG=test,nock.* run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'",
@@ -56,7 +58,6 @@
     "octokit-auth-netrc": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/register": "7.21.0",
     "@cucumber/cucumber": "9.1.0",
     "@travi/any": "2.1.8",
     "@travi/babel-preset": "3.0.96",
@@ -79,7 +80,7 @@
     "mock-fs": "5.2.0",
     "nock": "13.3.0",
     "npm-run-all": "4.1.5",
-    "package-preview": "4.0.0",
+    "publint": "0.1.11",
     "remark": "14.0.2",
     "remark-cli": "11.0.0",
     "remark-preset-lint-travi": "5.0.0",

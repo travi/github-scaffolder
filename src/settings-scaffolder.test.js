@@ -1,16 +1,16 @@
 import {promises as fs} from 'node:fs';
 import jsYaml from 'js-yaml';
+import * as mkdir from 'make-dir';
 
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import * as mkdir from '../third-party-wrappers/make-dir';
-import scaffoldSettings from './settings-scaffolder';
+import scaffoldSettings from './settings-scaffolder.js';
 
 vi.mock('node:fs');
 vi.mock('js-yaml');
-vi.mock('../third-party-wrappers/make-dir');
+vi.mock('make-dir');
 
 describe('settings', () => {
   const projectRoot = any.string();

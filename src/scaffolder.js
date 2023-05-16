@@ -1,5 +1,6 @@
 import {info} from '@travi/cli-messages';
-import scaffoldSettings from './settings-scaffolder';
+import {scaffold as scaffoldSettings} from '@form8ion/repository-settings';
+
 import create from './create';
 import {factory} from './github-client-factory';
 import nextStepsAdder from './next-steps';

@@ -7,7 +7,7 @@ import * as clientFactory from './github-client-factory';
 import * as nextSteps from './next-steps';
 import {scaffold} from './scaffolder';
 
-vi.mock('./settings-scaffolder');
+vi.mock('@form8ion/repository-settings');
 vi.mock('./create');
 vi.mock('./github-client-factory');
 vi.mock('./next-steps');

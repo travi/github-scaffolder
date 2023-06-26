@@ -11,8 +11,8 @@
   "repository": "travi/github-scaffolder",
   "bugs": "https://github.com/travi/github-scaffolder/issues",
   "homepage": "https://npm.im/@travi/github-scaffolder",
-  "main": "./lib/index.js",
   "exports": "./lib/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "clean": "rimraf lib/",
     "lint:js": "eslint . --cache",
@@ -21,7 +21,7 @@
     "lint:sensitive": "ban",
     "lint:peer": "npm ls >/dev/null",
     "lint:engines": "ls-engines",
-    "lint:publish": "publint",
+    "lint:publish": "publint --strict",
     "pretest": "run-s build",
     "test": "npm-run-all --print-label --parallel lint:* --parallel test:*",
     "test:unit:base": "DEBUG=any vitest run",

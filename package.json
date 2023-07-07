@@ -59,7 +59,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "9.2.0",
     "@travi/any": "2.1.8",
-    "@travi/babel-preset": "3.0.102",
+    "@travi/babel-preset": "3.0.103",
     "@travi/eslint-config": "3.0.33",
     "@travi/eslint-config-cucumber": "1.0.6",
     "ban-sensitive-files": "1.9.19",

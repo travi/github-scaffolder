@@ -60,7 +60,7 @@
     "@cucumber/cucumber": "9.4.0",
     "@travi/any": "2.1.8",
     "@travi/babel-preset": "3.0.105",
-    "@travi/eslint-config": "4.0.1",
+    "@travi/eslint-config": "4.0.2",
     "@travi/eslint-config-cucumber": "1.0.6",
     "ban-sensitive-files": "1.9.19",
     "c8": "8.0.1",

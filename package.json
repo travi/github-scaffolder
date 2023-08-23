@@ -62,7 +62,7 @@
     "@travi/babel-preset": "3.0.105",
     "@travi/eslint-config": "4.0.2",
     "@travi/eslint-config-cucumber": "1.0.6",
-    "ban-sensitive-files": "1.9.19",
+    "ban-sensitive-files": "1.10.0",
     "c8": "8.0.1",
     "chai": "4.3.7",
     "chai-as-promised": "7.1.1",

@@ -202,7 +202,7 @@ $ npm test
 
 [npm-link]: https://www.npmjs.com/package/@travi/github-scaffolder
 
-[npm-badge]: https://img.shields.io/npm/v/@travi/github-scaffolder.svg
+[npm-badge]: https://img.shields.io/npm/v/@travi/github-scaffolder?logo=npm
 
 [license-link]: LICENSE
 
@@ -210,7 +210,7 @@ $ npm test
 
 [coverage-link]: https://codecov.io/github/travi/github-scaffolder
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/travi/github-scaffolder.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/travi/github-scaffolder?logo=codecov
 
 [commit-convention-link]: https://conventionalcommits.org
 

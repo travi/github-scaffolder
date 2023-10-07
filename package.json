@@ -57,7 +57,7 @@
     "octokit-auth-netrc": "^2.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "9.5.1",
+    "@cucumber/cucumber": "9.6.0",
     "@travi/any": "3.0.0",
     "@travi/babel-preset": "3.0.112",
     "@travi/eslint-config": "4.0.5",

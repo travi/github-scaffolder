@@ -54,7 +54,7 @@
     "@octokit/rest": "^19.0.0",
     "@travi/cli-messages": "1.1.1",
     "git-config": "0.0.7",
-    "octokit-auth-netrc": "^2.0.0"
+    "octokit-auth-netrc": "^3.0.0"
   },
   "devDependencies": {
     "@cucumber/cucumber": "9.6.0",

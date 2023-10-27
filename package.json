@@ -5,7 +5,7 @@
   "version": "0.0.0-semantically-released",
   "type": "module",
   "engines": {
-    "node": "^16.14 || >=18"
+    "node": "^18.17 || >=20.6.1"
   },
   "author": "Matt Travi <npm@travi.org> (https://matt.travi.org/)",
   "repository": "travi/github-scaffolder",
@@ -28,7 +28,7 @@
     "test:unit": "cross-env NODE_ENV=test c8 run-s test:unit:base",
     "pretest:integration": "run-s build",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
-    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps $NODE_OPTIONS\" cucumber-js test/integration",
+    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps --no-experimental-fetch\" cucumber-js test/integration",
     "test:integration:debug": "DEBUG=test,nock.* run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'",
@@ -54,7 +54,7 @@
     "@octokit/rest": "^19.0.0",
     "@travi/cli-messages": "1.1.1",
     "git-config": "0.0.7",
-    "octokit-auth-netrc": "^2.0.0"
+    "octokit-auth-netrc": "^3.0.0"
   },
   "devDependencies": {
     "@cucumber/cucumber": "9.6.0",

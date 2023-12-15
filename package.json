@@ -51,7 +51,7 @@
   "dependencies": {
     "@form8ion/overridable-prompts": "^1.1.0",
     "@form8ion/repository-settings": "^1.0.0-alpha.1",
-    "@octokit/rest": "^19.0.0",
+    "@octokit/rest": "^20.0.0",
     "@travi/cli-messages": "1.1.1",
     "git-config": "0.0.7",
     "octokit-auth-netrc": "^3.0.0"

@@ -1,38 +1,31 @@
-import {promises as fsPromises} from 'fs';
+import {promises as fsPromises} from 'node:fs';
 import {StatusCodes} from 'http-status-codes';
 import yaml from 'js-yaml';
-import {After, Before, Given, Then} from '@cucumber/cucumber';
-import nock from 'nock';
-import any from '@travi/any';
-import {assert} from 'chai';
 import zip from 'lodash.zip';
 
-let githubScope, nextStepsIssueUrls;
-const githubToken = 'skdfjahdgakalkfjdlkf';
+import {AfterAll, BeforeAll, Given, Then} from '@cucumber/cucumber';
+import any from '@travi/any';
+import {assert} from 'chai';
+import deepEqual from 'deep-equal';
+import {http, HttpResponse} from 'msw';
+import {setupServer} from 'msw/node';
+
+let nextStepsIssueUrls;
+const githubToken = any.string();
 const sshUrl = any.url();
 const htmlUrl = any.url();
 const userAccount = any.word();
 const organizationAccount = any.word();
 const {readFile} = fsPromises;
 
-function stubGithubAuth(githubUser) {
-  githubScope
-    .matchHeader('Authorization', `token ${githubToken}`)
-    .get('/user')
-    .reply(StatusCodes.OK, {login: githubUser});
-}
+const server = setupServer();
 
-Before(function () {
-  nock.disableNetConnect();
-
-  githubScope = nock('https://api.github.com/');
+BeforeAll(function () {
+  server.listen();
 });
 
-After(() => {
-  assert.isTrue(githubScope.isDone());
-
-  nock.enableNetConnect();
-  nock.cleanAll();
+AfterAll(() => {
+  server.close();
 });
 
 Given('no authentication is provided', async function () {
@@ -43,82 +36,128 @@ Given('netrc contains no GitHub token', async function () {
   this.netrcContent = '';
 });
 
+function authorizationHeaderIncludesToken(request) {
+  return request.headers.get('authorization') === `token ${githubToken}`;
+}
+
 Given('netrc contains a GitHub token', async function () {
   this.githubUser = userAccount;
   this.netrcContent = `machine api.github.com\n  login ${githubToken}`;
 
-  stubGithubAuth(userAccount);
+  server.use(
+    http.get('https://api.github.com/user', ({request}) => {
+      if (authorizationHeaderIncludesToken(request)) {
+        return HttpResponse.json({login: userAccount});
+      }
+
+      return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+    })
+  );
 });
 
 Given('the user is not a member of the organization', async function () {
   this.githubUser = organizationAccount;
 
-  githubScope
-    .matchHeader('Authorization', `token ${githubToken}`)
-    .get('/user/orgs')
-    .reply(StatusCodes.OK, []);
+  server.use(
+    http.get('https://api.github.com/user/orgs', ({request}) => {
+      if (authorizationHeaderIncludesToken(request)) {
+        return HttpResponse.json([]);
+      }
+
+      return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+    })
+  );
 });
 
 Given('the user is a member of an organization', async function () {
   this.githubUser = organizationAccount;
 
-  githubScope
-    .matchHeader('Authorization', `token ${githubToken}`)
-    .get('/user/orgs')
-    .reply(StatusCodes.OK, [{login: organizationAccount}]);
+  server.use(
+    http.get('https://api.github.com/user/orgs', ({request}) => {
+      if (authorizationHeaderIncludesToken(request)) {
+        return HttpResponse.json([{login: organizationAccount}]);
+      }
+
+      return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+    })
+  );
 });
 
 Given('no repository exists for the {string} on GitHub', async function (accountType) {
   if ('user' === accountType) {
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${userAccount}/${this.projectName}`)
-      .reply(StatusCodes.NOT_FOUND);
+    server.use(
+      http.get(
+        `https://api.github.com/repos/${userAccount}/${this.projectName}`,
+        () => new HttpResponse(null, {status: StatusCodes.NOT_FOUND})
+      )
+    );
 
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .post('/user/repos')
-      .reply(StatusCodes.OK, {
-        ssh_url: sshUrl,
-        html_url: htmlUrl
-      });
+    server.use(
+      http.post('https://api.github.com/user/repos', ({request}) => {
+        if (authorizationHeaderIncludesToken(request)) {
+          return HttpResponse.json({
+            ssh_url: sshUrl,
+            html_url: htmlUrl
+          });
+        }
+
+        return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+      })
+    );
   }
 
   if ('organization' === accountType) {
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${organizationAccount}/${this.projectName}`)
-      .reply(StatusCodes.NOT_FOUND);
+    server.use(
+      http.get(
+        `https://api.github.com/repos/${organizationAccount}/${this.projectName}`,
+        () => new HttpResponse(null, {status: StatusCodes.NOT_FOUND})
+      )
+    );
 
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .post(`/orgs/${organizationAccount}/repos`)
-      .reply(StatusCodes.OK, {
-        ssh_url: sshUrl,
-        html_url: htmlUrl
-      });
+    server.use(
+      http.post(`https://api.github.com/orgs/${organizationAccount}/repos`, ({request}) => {
+        if (authorizationHeaderIncludesToken(request)) {
+          return HttpResponse.json({
+            ssh_url: sshUrl,
+            html_url: htmlUrl
+          });
+        }
+
+        return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+      })
+    );
   }
 });
 
 Given('a repository already exists for the {string} on GitHub', async function (accountType) {
   if ('user' === accountType) {
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${userAccount}/${this.projectName}`)
-      .reply(StatusCodes.OK, {
-        ssh_url: sshUrl,
-        html_url: htmlUrl
-      });
+    server.use(
+      http.get(`https://api.github.com/repos/${userAccount}/${this.projectName}`, ({request}) => {
+        if (authorizationHeaderIncludesToken(request)) {
+          return HttpResponse.json({
+            ssh_url: sshUrl,
+            html_url: htmlUrl
+          });
+        }
+
+        return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+      })
+    );
   }
 
   if ('organization' === accountType) {
-    githubScope
-      .matchHeader('Authorization', `token ${githubToken}`)
-      .get(`/repos/${organizationAccount}/${this.projectName}`)
-      .reply(StatusCodes.OK, {
-        ssh_url: sshUrl,
-        html_url: htmlUrl
-      });
+    server.use(
+      http.get(`https://api.github.com/repos/${organizationAccount}/${this.projectName}`, ({request}) => {
+        if (authorizationHeaderIncludesToken(request)) {
+          return HttpResponse.json({
+            ssh_url: sshUrl,
+            html_url: htmlUrl
+          });
+        }
+
+        return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+      })
+    );
   }
 });
 
@@ -130,16 +169,25 @@ Given('next steps are provided', async function () {
   nextStepsIssueUrls = this.nextSteps.map(() => any.url());
 
   if (this.netrcContent) {
-    this.nextSteps.forEach((task, index) => {
-      githubScope
-        .matchHeader('Authorization', `token ${githubToken}`)
-        .post(`/repos/${this.githubUser}/${this.projectName}/issues`, body => {
-          assert.deepEqual(body, {title: task.summary, ...task.description && {body: task.description}});
+    server.use(
+      http.post(
+        `https://api.github.com/repos/${this.githubUser}/${this.projectName}/issues`,
+        async ({request}) => {
+          if (authorizationHeaderIncludesToken(request)) {
+            const body = await request.json();
 
-          return true;
-        })
-        .reply(StatusCodes.CREATED, {url: nextStepsIssueUrls[index]});
-    });
+            const [, url] = zip(this.nextSteps, nextStepsIssueUrls).find(([task]) => deepEqual(
+              body,
+              {title: task.summary, ...task.description && {body: task.description}}
+            ));
+
+            return HttpResponse.json({url});
+          }
+
+          return new HttpResponse(null, {status: StatusCodes.UNAUTHORIZED});
+        }
+      )
+    );
   }
 });
 

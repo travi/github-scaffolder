@@ -28,7 +28,7 @@
     "test:unit": "cross-env NODE_ENV=test c8 run-s test:unit:base",
     "pretest:integration": "run-s build",
     "test:integration": "run-s 'test:integration:base -- --profile noWip'",
-    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps --no-experimental-fetch\" cucumber-js test/integration",
+    "test:integration:base": "NODE_OPTIONS=\"--enable-source-maps\" cucumber-js test/integration",
     "test:integration:debug": "DEBUG=test,nock.* run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'",
@@ -51,13 +51,13 @@
   "dependencies": {
     "@form8ion/overridable-prompts": "^1.1.0",
     "@form8ion/repository-settings": "^1.0.0-alpha.1",
-    "@octokit/rest": "^19.0.0",
+    "@octokit/rest": "^20.0.0",
     "@travi/cli-messages": "1.1.1",
     "git-config": "0.0.7",
     "octokit-auth-netrc": "^3.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "10.0.1",
+    "@cucumber/cucumber": "10.3.1",
     "@travi/any": "3.0.2",
     "@travi/babel-preset": "3.0.116",
     "@travi/eslint-config": "5.0.6",
@@ -70,6 +70,7 @@
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "debug": "4.3.4",
+    "deep-equal": "2.2.3",
     "gherkin-lint": "4.2.2",
     "http-status-codes": "2.3.0",
     "husky": "8.0.3",
@@ -78,7 +79,7 @@
     "lodash.zip": "4.2.0",
     "ls-engines": "0.9.1",
     "mock-fs": "5.2.0",
-    "nock": "13.4.0",
+    "msw": "2.1.2",
     "npm-run-all2": "6.1.1",
     "publint": "0.2.6",
     "remark": "15.0.1",
@@ -89,6 +90,6 @@
     "rimraf": "5.0.5",
     "rollup": "4.9.0",
     "rollup-plugin-auto-external": "2.0.0",
-    "vitest": "1.0.4"
+    "vitest": "1.2.1"
   }
 }

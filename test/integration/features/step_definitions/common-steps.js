@@ -1,6 +1,5 @@
 import {fileURLToPath} from 'node:url';
 import {resolve, dirname} from 'node:path';
-import {promises as fsPromises} from 'node:fs';
 // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
 import {scaffold} from '@travi/github-scaffolder';
 
@@ -10,8 +9,6 @@ import any from '@travi/any';
 import debugTest from 'debug';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));        // eslint-disable-line no-underscore-dangle
-const {readFile} = fsPromises;
-const packagePreviewDirectory = '../__package_previews__/github-scaffolder';
 const pathToNodeModules = [__dirname, '../../../../', 'node_modules/'];
 const stubbedNodeModules = stubbedFs.load(resolve(...pathToNodeModules));
 const debug = debugTest('test');
@@ -32,29 +29,7 @@ When('the project is scaffolded', async function () {
   stubbedFs({
     ...this.netrcContent && {[`${process.env.HOME}/.netrc`]: this.netrcContent},
     [`${process.env.HOME}/.gitconfig`]: `[github]\n\tuser = ${this.githubUser}`,
-    node_modules: stubbedNodeModules,
-    [packagePreviewDirectory]: {
-      '@travi': {
-        'github-scaffolder': {
-          node_modules: {
-            '.pnpm': {
-              node_modules: {
-                'color-name': {'index.js': await readFile(resolve(...pathToNodeModules, 'color-name/index.js'))}
-              },
-              'ansi-styles@4.3.0': {
-                node_modules: {
-                  'color-convert': {
-                    'index.js': await readFile(resolve(...pathToNodeModules, 'color-convert/index.js')),
-                    'conversions.js': await readFile(resolve(...pathToNodeModules, 'color-convert/conversions.js')),
-                    'route.js': await readFile(resolve(...pathToNodeModules, 'color-convert/route.js'))
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    node_modules: stubbedNodeModules
   });
 
   try {

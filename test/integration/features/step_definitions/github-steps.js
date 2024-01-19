@@ -11,7 +11,7 @@ import {http, HttpResponse} from 'msw';
 import {setupServer} from 'msw/node';
 
 let nextStepsIssueUrls;
-const githubToken = any.string();
+const githubToken = any.word();
 const sshUrl = any.url();
 const htmlUrl = any.url();
 const userAccount = any.word();

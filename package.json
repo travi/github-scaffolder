@@ -64,7 +64,7 @@
     "@travi/eslint-config-cucumber": "1.0.6",
     "ban-sensitive-files": "1.10.1",
     "c8": "9.1.0",
-    "chai": "5.0.0",
+    "chai": "5.0.3",
     "commitlint-config-travi": "1.4.46",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",

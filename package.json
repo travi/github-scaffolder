@@ -78,7 +78,7 @@
     "lodash.zip": "4.2.0",
     "ls-engines": "0.9.1",
     "mock-fs": "5.2.0",
-    "msw": "2.2.9",
+    "msw": "2.2.10",
     "npm-run-all2": "6.1.2",
     "publint": "0.2.7",
     "remark": "15.0.1",

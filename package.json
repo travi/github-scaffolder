@@ -49,6 +49,7 @@
     }
   },
   "dependencies": {
+    "@form8ion/github": "^1.0.0-alpha.3",
     "@form8ion/overridable-prompts": "^1.1.0",
     "@form8ion/repository-settings": "^1.0.0-alpha.1",
     "@octokit/rest": "^20.0.0",

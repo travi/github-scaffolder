@@ -1,16 +1,18 @@
+import {scaffold as scaffoldGithub} from '@form8ion/github';
+import {scaffold as scaffoldSettings} from '@form8ion/repository-settings';
+
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import * as creator from './create';
-import * as clientFactory from './github-client-factory';
-import * as nextSteps from './next-steps';
-import {scaffold} from './scaffolder';
+import * as clientFactory from './github-client-factory.js';
+import * as nextSteps from './next-steps.js';
+import {scaffold} from './scaffolder.js';
 
 vi.mock('@form8ion/repository-settings');
-vi.mock('./create');
-vi.mock('./github-client-factory');
-vi.mock('./next-steps');
+vi.mock('@form8ion/github');
+vi.mock('./github-client-factory.js');
+vi.mock('./next-steps.js');
 
 describe('github', () => {
   const projectRoot = any.string();
@@ -30,8 +32,8 @@ describe('github', () => {
     const octokitClient = any.simpleObject();
     const topics = any.listOf(any.word);
     const providedNextSteps = any.listOf(any.simpleObject);
-    when(creator.default)
-      .calledWith(projectName, projectOwner, visibility, octokitClient)
+    when(scaffoldGithub)
+      .calledWith({name: projectName, owner: projectOwner, visibility})
       .mockResolvedValue(creationResult);
     when(nextSteps.default)
       .calledWith(octokitClient, providedNextSteps, projectName, projectOwner)
@@ -48,18 +50,7 @@ describe('github', () => {
       tags: topics,
       nextSteps: providedNextSteps
     })).toEqual({...creationResult, ...nextStepsResult});
-  });
-
-  it('should not create the repo if an octokit client is not available', async () => {
-    clientFactory.factory.mockReturnValue(undefined);
-
-    expect(await scaffold({
-      projectRoot,
-      name: projectName,
-      owner: projectOwner,
-      description,
-      homepage,
-      visibility
-    })).toEqual({});
+    expect(scaffoldSettings)
+      .toHaveBeenCalledWith({projectRoot, projectName, description, homepage, visibility, topics});
   });
 });

@@ -1,9 +1,9 @@
 import {info} from '@travi/cli-messages';
 import {scaffold as scaffoldSettings} from '@form8ion/repository-settings';
+import {scaffold as scaffoldGithub} from '@form8ion/github';
 
-import create from './create';
-import {factory} from './github-client-factory';
-import nextStepsAdder from './next-steps';
+import {factory} from './github-client-factory.js';
+import nextStepsAdder from './next-steps.js';
 
 export async function scaffold({name, owner, projectRoot, description, homepage, visibility, tags, nextSteps}) {
   info('Generating GitHub');
@@ -12,7 +12,7 @@ export async function scaffold({name, owner, projectRoot, description, homepage,
 
   const [, creationResult] = await Promise.all([
     scaffoldSettings({projectRoot, projectName: name, description, homepage, visibility, topics: tags}),
-    ...octokit ? [create(name, owner, visibility, octokit)] : []
+    scaffoldGithub({name, owner, visibility})
   ]);
 
   const nextStepsResult = await nextStepsAdder(octokit, nextSteps, name, owner);

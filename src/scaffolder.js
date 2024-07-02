@@ -12,7 +12,7 @@ export async function scaffold({name, owner, projectRoot, description, homepage,
 
   const [, creationResult] = await Promise.all([
     scaffoldSettings({projectRoot, projectName: name, description, homepage, visibility, topics: tags}),
-    scaffoldGithub({name, owner, visibility})
+    scaffoldGithub({name, owner, visibility, projectRoot})
   ]);
 
   const nextStepsResult = await nextStepsAdder(octokit, nextSteps, name, owner);

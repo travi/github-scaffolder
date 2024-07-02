@@ -33,7 +33,7 @@ describe('github', () => {
     const topics = any.listOf(any.word);
     const providedNextSteps = any.listOf(any.simpleObject);
     when(scaffoldGithub)
-      .calledWith({name: projectName, owner: projectOwner, visibility})
+      .calledWith({name: projectName, owner: projectOwner, visibility, projectRoot})
       .mockResolvedValue(creationResult);
     when(nextSteps.default)
       .calledWith(octokitClient, providedNextSteps, projectName, projectOwner)

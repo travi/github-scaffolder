@@ -21,5 +21,5 @@ Feature: Organization
     And the user is not a member of the organization
     When the project is scaffolded
     Then no repository is created on GitHub
-    And repository settings are configured
+    And repository settings are not configured
     And and an authorization error is thrown

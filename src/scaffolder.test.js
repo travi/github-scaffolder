@@ -1,5 +1,4 @@
-import {scaffold as scaffoldGithub} from '@form8ion/github';
-import {scaffold as scaffoldSettings} from '@form8ion/repository-settings';
+import {scaffold as scaffoldGithub, lift as liftGithub} from '@form8ion/github';
 
 import {afterEach, describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
@@ -33,7 +32,7 @@ describe('github', () => {
     const topics = any.listOf(any.word);
     const providedNextSteps = any.listOf(any.simpleObject);
     when(scaffoldGithub)
-      .calledWith({name: projectName, owner: projectOwner, visibility, projectRoot})
+      .calledWith({name: projectName, owner: projectOwner, visibility, projectRoot, description})
       .mockResolvedValue(creationResult);
     when(nextSteps.default)
       .calledWith(octokitClient, providedNextSteps, projectName, projectOwner)
@@ -50,7 +49,7 @@ describe('github', () => {
       tags: topics,
       nextSteps: providedNextSteps
     })).toEqual({...creationResult, ...nextStepsResult});
-    expect(scaffoldSettings)
-      .toHaveBeenCalledWith({projectRoot, projectName, description, homepage, visibility, topics});
+    expect(liftGithub)
+      .toHaveBeenCalledWith({projectRoot, results: {tags: topics, projectDetails: {homepage}}});
   });
 });

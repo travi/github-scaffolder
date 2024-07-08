@@ -2,6 +2,7 @@ import {promises as fsPromises} from 'node:fs';
 import {StatusCodes} from 'http-status-codes';
 import yaml from 'js-yaml';
 import zip from 'lodash.zip';
+import {fileExists} from '@form8ion/core';
 
 import {AfterAll, BeforeAll, Given, Then} from '@cucumber/cucumber';
 import any from '@travi/any';
@@ -240,4 +241,8 @@ Then('repository settings are configured', async function () {
       }
     }
   );
+});
+
+Then('repository settings are not configured', async function () {
+  assert.isFalse(await fileExists(`${process.cwd()}/.github/settings.yml`));
 });

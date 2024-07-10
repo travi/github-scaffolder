@@ -201,7 +201,10 @@ Then('a repository is created on GitHub', async function () {
 });
 
 Then('issues are created for next-steps', async function () {
-  assert.deepEqual(this.result.nextSteps, nextStepsIssueUrls);
+  assert.deepEqual(
+    this.result.nextSteps,
+    zip(nextStepsIssueUrls, this.nextSteps).map(([url, step]) => ({...step, url}))
+  );
 });
 
 Then('no issues are created for next-steps', async function () {

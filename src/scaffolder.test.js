@@ -4,8 +4,6 @@ import {afterEach, describe, expect, it, vi} from 'vitest';
 import any from '@travi/any';
 import {when} from 'jest-when';
 
-import * as clientFactory from './github-client-factory.js';
-import * as nextSteps from './next-steps.js';
 import {scaffold} from './scaffolder.js';
 
 vi.mock('@form8ion/repository-settings');
@@ -27,17 +25,19 @@ describe('github', () => {
 
   it('should produce the settings file and create the repository', async () => {
     const creationResult = any.simpleObject();
-    const nextStepsResult = {nextSteps: any.listOf(any.url)};
-    const octokitClient = any.simpleObject();
+    const liftResult = any.simpleObject();
     const topics = any.listOf(any.word);
     const providedNextSteps = any.listOf(any.simpleObject);
     when(scaffoldGithub)
       .calledWith({name: projectName, owner: projectOwner, visibility, projectRoot, description})
       .mockResolvedValue(creationResult);
-    when(nextSteps.default)
-      .calledWith(octokitClient, providedNextSteps, projectName, projectOwner)
-      .mockResolvedValue(nextStepsResult);
-    clientFactory.factory.mockReturnValue(octokitClient);
+    when(liftGithub)
+      .calledWith({
+        projectRoot,
+        results: {tags: topics, projectDetails: {homepage}, nextSteps: providedNextSteps},
+        vcs: {owner: projectOwner, name: projectName}
+      })
+      .mockResolvedValue(liftResult);
 
     expect(await scaffold({
       projectRoot,
@@ -48,8 +48,6 @@ describe('github', () => {
       visibility,
       tags: topics,
       nextSteps: providedNextSteps
-    })).toEqual({...creationResult, ...nextStepsResult});
-    expect(liftGithub)
-      .toHaveBeenCalledWith({projectRoot, results: {tags: topics, projectDetails: {homepage}}});
+    })).toEqual({...creationResult, ...liftResult});
   });
 });

@@ -82,7 +82,7 @@
     "publint": "0.2.9",
     "remark": "15.0.1",
     "remark-cli": "12.0.1",
-    "remark-preset-lint-travi": "6.0.4",
+    "remark-preset-lint-travi": "6.0.5",
     "remark-toc": "9.0.0",
     "remark-usage": "11.0.1",
     "rimraf": "6.0.1",

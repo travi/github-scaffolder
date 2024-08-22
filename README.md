@@ -1,5 +1,8 @@
 # github-scaffolder
 
+> [!WARNING]
+> This package has been deprecated in favor of [`@form8ion/github`](https://github.com/form8ion/github)
+
 VCS scaffolder for projects to be hosted on GitHub
 
 <!--status-badges start -->
